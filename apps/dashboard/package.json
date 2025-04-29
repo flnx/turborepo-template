@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint \"src/**/*.ts\"",
-    "preview": "vite preview"
+    "start": "vite preview"
   },
   "dependencies": {
     "@repo/ui": "workspace:*",

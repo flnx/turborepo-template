@@ -3,8 +3,15 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "types": ["vite/client"],
-    "baseUrl": "."
   },
-  "include": ["src"]
 }
+// {
+//   "$schema": "https://json.schemastore.org/tsconfig",
+//   "extends": "./tsconfig.base.json",
+//   "compilerOptions": {
+//     "jsx": "react-jsx",
+//     "types": ["vite/client"],
+//     "baseUrl": "."
+//   },
+//   "include": ["src"]
+// }

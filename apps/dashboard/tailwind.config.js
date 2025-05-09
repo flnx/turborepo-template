@@ -5,17 +5,17 @@ export default {
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
-    // './src/layouts/**/*.{js,ts,jsx,tsx,mdx}',
-    // './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    // './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/@heroui/theme/dist/components/(button|checkbox|chip|input|ripple|spinner|form).js',
+    "// './src/layouts/**/*.{js,ts,jsx,tsx,mdx}'",
+    "// './src/pages/**/*.{js,ts,jsx,tsx,mdx}'",
+    "// './src/components/**/*.{js,ts,jsx,tsx,mdx}'",
+    './node_modules/@heroui/theme/dist/components/(button|card|checkbox|chip|dropdown|input|progress|ripple|spinner|form|menu|popover).js',
   ],
   theme: {
     container: {
       center: true,
       padding: {
-        DEFAULT: '1.0155rem'
-      }
+        DEFAULT: '1.0155rem',
+      },
     },
     extend: {},
   },

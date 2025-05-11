@@ -1,6 +1,8 @@
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
+
 import _package from './package.json' with { type: 'json' };
 
 /**
@@ -59,7 +61,11 @@ export function extractPerVendorDependencies(
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
+  plugins: [
+    TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
+    react(),
+    tsconfigPaths(),
+  ],
   build: {
     rollupOptions: {
       output: {

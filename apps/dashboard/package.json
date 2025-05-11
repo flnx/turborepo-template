@@ -21,6 +21,8 @@
     "@heroui/theme": "^2.4.15",
     "@heroui/use-theme": "^2.1.8",
     "@repo/ui": "workspace:*",
+    "@tanstack/react-router": "^1.120.3",
+    "@tanstack/react-router-devtools": "^1.120.3",
     "framer-motion": "^12.10.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
@@ -31,6 +33,7 @@
     "@iconify/react": "^6.0.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@tanstack/router-plugin": "^1.120.3",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react-swc": "^3.8.0",

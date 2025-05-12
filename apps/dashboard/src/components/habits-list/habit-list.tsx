@@ -40,7 +40,7 @@ const habits: Habit[] = [
 
 export const HabitsList = () => {
   return (
-    <div className="flex flex-col w-full gap-5 items-center">
+    <div className="flex flex-col gap-5">
       {habits.map((habit) => (
         <Habit habit={habit} />
       ))}
@@ -54,9 +54,10 @@ const Habit = ({ habit }: { habit: Habit }) => {
   return (
     <Checkbox
       aria-label={habit.name}
+      radius="sm"
       classNames={{
         base: cn(
-          'inline-flex w-full max-w-md bg-content1',
+          'inline-flex w-full max-w-md bg-content1 -mx-0',
           'hover:bg-content2 items-center justify-start',
           'cursor-pointer rounded-lg gap-2 p-4 border-2 border-transparent',
           'data-[selected=true]:border-primary',
@@ -67,13 +68,23 @@ const Habit = ({ habit }: { habit: Habit }) => {
       onValueChange={setIsSelected}
     >
       <div className="flex w-full items-center justify-between gap-2">
-        <p className="-mt-1">{habit.name}</p>
-        <div className="flex flex-col items-end gap-1">
+        <p className="relative -mt-1 inline-block">
+          <span className="relative z-10">{habit.name}</span>
+          <span
+            className={cn(
+              'absolute left-0 top-[60%] h-[1px] w-full origin-left scale-x-0 bg-current transition-transform duration-300',
+              {
+                'scale-x-100': isSelected,
+              },
+            )}
+          />
+        </p>
+        <div className="flex flex-col items-end gap-2">
           <span className="text-tiny text-default-500">
             {habit.streak} days streak
           </span>
           <Chip color="success" size="sm" variant="flat">
-            {isSelected ? "Completed" : "Active"}
+            {isSelected ? 'Completed' : 'Active'}
           </Chip>
         </div>
       </div>

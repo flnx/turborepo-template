@@ -6,8 +6,6 @@ import '@/styles/index.css';
 
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 
-// import App from './App.tsx';
-// import Providers from './providers.tsx';
 import { routeTree } from './routeTree.gen';
 
 const router = createRouter({ routeTree });
@@ -32,14 +30,3 @@ if (!rootElement.innerHTML) {
     </StrictMode>,
   );
 }
-
-// createRoot(document.getElementById('root')!).render(
-//   <StrictMode>
-//     <RouterProvider router={router} />
-//     <Providers>
-//       {/* <main className="bg-background text-foreground dark"> */}
-//       <App />
-//       {/* </main> */}
-//     </Providers>
-//   </StrictMode>,
-// );

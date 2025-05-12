@@ -6,16 +6,17 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <Providers>
-        <div className="flex gap-2 p-2">
+        <header className="flex gap-4 p-10">
           <Link to="/" className="[&.active]:font-bold">
             Home
           </Link>{' '}
-          <Link to="/about" className="[&.active]:font-bold">
-            About
-          </Link>
-        </div>
-        <hr />
-        <Outlet />
+          <Link to="/dashboard" className="[&.active]:font-bold">
+            Dashboard
+          </Link>{' '}
+        </header>
+        <main className="min-h-svh md:min-h-screen">
+          <Outlet />
+        </main>
       </Providers>
       <TanStackRouterDevtools />
     </>

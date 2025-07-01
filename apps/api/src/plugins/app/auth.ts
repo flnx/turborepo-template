@@ -3,7 +3,8 @@ import fp from 'fastify-plugin';
 import fastifyJwt from '@fastify/jwt';
 
 import options from '../../config/options';
-import { SupabaseJWTPayload } from '../../types';
+
+import type { SupabaseAuthSession, SupabaseJWTPayload } from '../../types/auth';
 
 declare module '@fastify/jwt' {
   export interface FastifyJWT {
@@ -20,6 +21,19 @@ declare module '@fastify/jwt' {
 
 async function authPlugin(app: FastifyInstance) {
   app.register(fastifyJwt, {
+    formatUser: (payload) => {
+      const user = payload as SupabaseAuthSession;
+
+      const formatted: SupabaseJWTPayload = {
+        email: user.email,
+        email_verified: user.user_metadata.email_verified,
+        full_name: user.user_metadata.full_name,
+        id: user.sub,
+      };
+
+      return formatted;
+    },
+
     secret: options.supabase_jwt_secret,
   });
 

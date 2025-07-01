@@ -19,10 +19,8 @@ async function supabasePlugin(app: FastifyInstance) {
   app.decorateRequest('supabase', null);
 
   app.addHook('onRequest', async (req) => {
-    // Validation is not needed
     // Validation unnecessary. The header 100% exists, because the authorization plugin already did the validation
     const userAccessToken = req.headers.authorization!;
-
     req.supabase = createSupabaseClient(userAccessToken);
   });
 }

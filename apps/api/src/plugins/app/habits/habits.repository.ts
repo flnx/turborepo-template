@@ -1,5 +1,6 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import fp from 'fastify-plugin';
+import { getUserHabits } from './habits.service';
 
 declare module 'fastify' {
   export interface FastifyInstance {
@@ -7,23 +8,10 @@ declare module 'fastify' {
   }
 }
 
-function createRepository(app: FastifyInstance) {
+function createRepository(_app: FastifyInstance) {
   return {
     async getUserHabits(req: FastifyRequest) {
-      const { supabase, user } = req;
-
-      console.log(user);
-
-      return [
-        {
-          id: 1,
-          title: 'running',
-        },
-        {
-          id: 2,
-          title: 'boxing',
-        },
-      ];
+      return getUserHabits({ supabase: req.supabase, user: req.user });
     },
   };
 }

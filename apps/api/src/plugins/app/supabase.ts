@@ -5,7 +5,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 
 declare module 'fastify' {
   export interface FastifyRequest {
-    supabase: SupabaseClient | null;
+    supabase: SupabaseClient;
   }
 }
 
@@ -16,7 +16,7 @@ declare module 'fastify' {
  */
 
 async function supabasePlugin(app: FastifyInstance) {
-  app.decorateRequest('supabase', null);
+  app.decorateRequest('supabase', null as unknown as SupabaseClient);
 
   app.addHook('onRequest', async (req) => {
     // Validation unnecessary. The header 100% exists, because the authorization plugin already did the validation

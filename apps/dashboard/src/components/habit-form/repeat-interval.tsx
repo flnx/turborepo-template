@@ -30,7 +30,6 @@ export const RepeatInterval = () => {
         <NumberInput
           label="Repeat every"
           labelPlacement="outside-left"
-          placeholder="Enter a number"
         />
         <Select className="max-w-xs">
           {animals.map((animal) => (

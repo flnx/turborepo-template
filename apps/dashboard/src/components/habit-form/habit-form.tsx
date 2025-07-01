@@ -15,8 +15,8 @@ export const HabitForm = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
-    <>
-      <Button color="primary" onPress={onOpen}>
+    <div>
+      <Button color="primary" onPress={onOpen} size="md">
         Add Habit
       </Button>
       <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
@@ -58,6 +58,6 @@ export const HabitForm = () => {
           )}
         </ModalContent>
       </Modal>
-    </>
+    </div>
   );
 };

@@ -9,7 +9,6 @@ import {
   DropdownTrigger,
 } from '@heroui/dropdown';
 import { Progress } from '@heroui/progress';
-import { cn } from '@heroui/theme';
 
 const data: {
   title: string;

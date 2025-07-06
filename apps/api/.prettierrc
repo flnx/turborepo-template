@@ -1,0 +1,32 @@
+{
+  "printWidth": 90,
+  "tabWidth": 2,
+  "useTabs": false,
+  "singleQuote": true,
+  "semi": true,
+  "trailingComma": "all",
+  "arrowParens": "always",
+  "jsxSingleQuote": false,
+  "bracketSpacing": true,
+  "endOfLine": "auto",
+  "plugins": ["@ianvs/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@/constants/(.*)$",
+    "",
+    "^@/schemas/(.*)$",
+    "",
+    "^@/config/(.*)$",
+    "",
+    "^@/utils/(.*)$",
+    "",
+    "^@/components/(.*)$",
+    "",
+    "^[.]",
+    "",
+    "<TYPES>^(node:)",
+    "<TYPES>",
+    "<TYPES>^[.]"
+  ]
+}

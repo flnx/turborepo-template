@@ -1,7 +1,7 @@
-import { FastifyInstance } from 'fastify';
 import fastifyUnderPressure, {
   FastifyUnderPressureOptions,
 } from '@fastify/under-pressure';
+import { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
 
 export const autoConfig = (_fastify: FastifyInstance) => {

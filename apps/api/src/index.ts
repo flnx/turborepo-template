@@ -1,13 +1,11 @@
-import fp from 'fastify-plugin';
-
-import Fastify from 'fastify';
-
 // Import library to exit fastify process, gracefully (if possible)
 import closeWithGrace from 'close-with-grace';
+import Fastify from 'fastify';
+import fp from 'fastify-plugin';
 
+import { serviceApp } from './app';
 // Import the application as a normal plugin.
 import config from './config/options';
-import { serviceApp } from './app';
 
 /**
  * Do not use NODE_ENV to determine what logger (or any env related feature) to use

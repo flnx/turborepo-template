@@ -1,10 +1,9 @@
-import type { TCreateHabit } from '../../../schemas/habits.schema';
-import {
-  createService,
-  type TServiceContext,
-} from '../../../utils/createService';
+import { createService } from '../../../utils/createService';
 
-export const getUserHabits = createService(async ({ supabase, user }) => {
+import type { TCreateHabit } from '../../../schemas/habits.schema';
+import type { TServiceContext } from '../../../utils/createService';
+
+export const getHabits = createService(async ({ supabase, user }) => {
   const { data, error } = await supabase
     .from('habits')
     .select('*')
@@ -17,12 +16,12 @@ export const getUserHabits = createService(async ({ supabase, user }) => {
   return data;
 });
 
-type CreateUserHabitsParams = TServiceContext & {
+type CreateHabitParams = TServiceContext & {
   userData: TCreateHabit;
 };
 
-export const createUserHabits = createService(
-  async ({ supabase, userData }: CreateUserHabitsParams) => {
+export const createHabit = createService(
+  async ({ supabase, userData }: CreateHabitParams) => {
     const { data, error, status } = await supabase
       .from('habits')
       .insert<TCreateHabit>(userData);
@@ -32,5 +31,5 @@ export const createUserHabits = createService(
     }
 
     return { data, error, status };
-  }
+  },
 );

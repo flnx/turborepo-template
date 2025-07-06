@@ -39,8 +39,8 @@ export type SupabaseAuthSession = {
 };
 
 export type SupabaseJWTPayload = {
-  id: string,
+  id: string;
   email: string;
   email_verified: boolean;
   full_name: string;
-}
+};

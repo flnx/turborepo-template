@@ -1,30 +1,20 @@
 import { FastifyInstance } from 'fastify';
-import {
-  TCreateHabit,
-  createHabitJSONSchema,
-} from '../../../schemas/habits.schema';
+
+import { createHabitJSONSchema } from '../../../schemas/habits.schema';
+
+import type { TCreateHabit } from '../../../schemas/habits.schema';
 
 type CreateHabitRoute = {
   Body: TCreateHabit;
 };
 
 export default async function habitRoutes(app: FastifyInstance) {
-  const { getUserHabitsHandler, createUserHabitsHandler } =
-    app.habitsRepository;
+  const { getAll, create } = app.habitsRepository;
 
-  app.get('/', async (req, reply) => {
-    // controller logic here in future
-    const result = await getUserHabitsHandler(req);
-
-    return result;
-  });
+  app.get('/', async (req, _reply) => getAll(req));
 
   app.post<CreateHabitRoute>('/', {
-    handler: async (req, reply) => {
-      const data = createUserHabitsHandler(req);
-
-      return data;
-    },
+    handler: async (req, _reply) => create(req),
     schema: {
       body: createHabitJSONSchema,
     },

@@ -1,6 +1,6 @@
+import fastifyJwt from '@fastify/jwt';
 import { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
-import fastifyJwt from '@fastify/jwt';
 
 import options from '../../config/options';
 

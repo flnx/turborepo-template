@@ -16,7 +16,7 @@ export async function serviceApp(app: FastifyInstance, opts: FastifyPluginOption
 
   // This loads all application plugins defined in plugins/app
   // Those should be support plugins that are reused the application
-  app.register(fastifyAutoload, {
+  await app.register(fastifyAutoload, {
     dir: join(__dirname, 'plugins/app'),
     options: { ...opts },
   });

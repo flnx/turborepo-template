@@ -3,7 +3,7 @@ import closeWithGrace from 'close-with-grace';
 import Fastify from 'fastify';
 import fp from 'fastify-plugin';
 
-import { serviceApp } from './app';
+import { serviceApp } from './app.js';
 // Import the application as a normal plugin.
 import config from './config/options';
 

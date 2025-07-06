@@ -1,7 +1,7 @@
-import { createService } from '../../../utils/createService';
+import { createService } from '@/utils/createService';
 
-import type { TCreateHabit } from '../../../schemas/habits.schema';
-import type { TServiceContext } from '../../../utils/createService';
+import type { TCreateHabit } from '@/schemas/habits.schema';
+import type { TServiceContext } from '@/utils/createService';
 
 export const getHabits = createService(async ({ supabase, user }) => {
   const { data, error } = await supabase

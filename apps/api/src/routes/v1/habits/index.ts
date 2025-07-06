@@ -1,8 +1,8 @@
 import { FastifyInstance } from 'fastify';
 
-import { createHabitJSONSchema } from '../../../schemas/habits.schema';
+import { createHabitJSONSchema } from '@/schemas/habits.schema';
 
-import type { TCreateHabit } from '../../../schemas/habits.schema';
+import type { TCreateHabit } from '@/schemas/habits.schema';
 
 type CreateHabitRoute = {
   Body: TCreateHabit;

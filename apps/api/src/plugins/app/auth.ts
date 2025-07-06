@@ -2,9 +2,9 @@ import fastifyJwt from '@fastify/jwt';
 import { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
 
-import options from '../../config/options';
+import options from '@/config/options';
 
-import type { SupabaseAuthSession, SupabaseJWTPayload } from '../../types/auth';
+import type { SupabaseAuthSession, SupabaseJWTPayload } from '@/types/auth';
 
 declare module '@fastify/jwt' {
   export interface FastifyJWT {

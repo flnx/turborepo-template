@@ -3,7 +3,7 @@ import fp from 'fastify-plugin';
 
 import { createHabit, getHabits } from './habits.service';
 
-import type { TCreateHabit } from '../../../schemas/habits.schema';
+import type { TCreateHabit } from '@/schemas/habits.schema';
 
 declare module 'fastify' {
   export interface FastifyInstance {

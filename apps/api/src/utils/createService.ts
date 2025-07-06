@@ -1,4 +1,4 @@
-import { SupabaseJWTPayload } from '../types/auth';
+import { SupabaseJWTPayload } from '@/types/auth';
 
 import type { TCreateSupabaseClient } from './createSupabaseClient';
 

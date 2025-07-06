@@ -1,7 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
-import config from '../config/options';
-import { Database } from '../types/database.types';
+import config from '@/config/options';
+
+import type { Database } from '@/types/database.types';
 
 export const createSupabaseClient = (accessToken: string) => {
   const supabase = createClient<Database>(config.supabase_url, config.supabase_anon_key, {

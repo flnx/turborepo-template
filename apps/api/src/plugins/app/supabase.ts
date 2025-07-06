@@ -2,9 +2,9 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
 
-import { createSupabaseClient } from '../../utils/createSupabaseClient';
+import { createSupabaseClient } from '@/utils/createSupabaseClient';
 
-import type { TCreateSupabaseClient } from '../../utils/createSupabaseClient';
+import type { TCreateSupabaseClient } from '@/utils/createSupabaseClient';
 
 declare module 'fastify' {
   export interface FastifyRequest {

@@ -9,52 +9,24 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@heroui/dropdown';
+import { Progress } from '@heroui/progress';
 
-import { HorizontalCalendar } from '@/components/calendar/calendar';
-
-type Habit = {
+export type Habit = {
   id: string;
   user_id: string;
   title: string;
   streak: number;
   status: 'Active' | 'In Progress' | 'Completed';
   isCompleted: boolean;
-  repeat: 1 | 2 | 3 | 4 | 5 | 6 | 7
+  repeat: 1 | 2 | 3 | 4 | 5 | 6 | 7;
 };
 
-const habits: Habit[] = [
-  {
-    id: '1',
-    name: 'Cycling',
-    status: 'Active',
-    streak: 10,
-  },
-  {
-    id: '2',
-    name: 'Running',
-    status: 'Active',
-    streak: 2,
-  },
-  {
-    id: '3',
-    name: 'Coding',
-    status: 'Active',
-    streak: 5,
-  },
-  {
-    id: '4',
-    name: 'Shopping',
-    status: 'Active',
-    streak: 1,
-  },
-];
-
-export const HabitsList = () => {
+export const HabitsList = ({ habits }: { habits: Habit[] }) => {
   return (
     <div className="flex flex-col gap-16">
-      <HorizontalCalendar />
+      <DailyProgress />
       {habits.map((habit) => (
-        <Habit habit={habit} />
+        <Habit habit={habit} key={habit.id} />
       ))}
     </div>
   );
@@ -66,7 +38,7 @@ const Habit = ({ habit }: { habit: Habit }) => {
   return (
     <div className="flex w-full">
       <Checkbox
-        aria-label={habit.name}
+        aria-label={habit.title}
         isSelected={isSelected}
         radius="sm"
         classNames={{
@@ -76,8 +48,8 @@ const Habit = ({ habit }: { habit: Habit }) => {
         lineThrough
       >
         <div className="-mt-1 flex flex-col">
-          <span className="font-semibold">{habit.name}</span>
-          <small className="absolute top-7 w-56 text-tiny text-default-500">
+          <span className="font-semibold">{habit.title}</span>
+          <small className="absolute top-7 w-56 text-default-500 text-tiny">
             10 days streak
           </small>
         </div>
@@ -112,40 +84,11 @@ const Habit = ({ habit }: { habit: Habit }) => {
   );
 };
 
-//  <Checkbox
-//   aria-label={habit.name}
-//   radius="sm"
-//   classNames={{
-//     base: cn(
-//       'inline-flex w-full max-w-md bg-content1 -mx-0',
-//       'hover:bg-content2 items-center justify-start',
-//       'cursor-pointer rounded-lg gap-2 p-4 border-2 border-transparent',
-//       'data-[selected=true]:border-primary',
-//     ),
-//     label: 'w-full',
-//   }}
-//   isSelected={isSelected}
-//   onValueChange={setIsSelected}
-// >
-//   <div className="flex w-full items-center justify-between gap-2">
-//     <p className="relative -mt-1 inline-block">
-//       <span className="relative z-10">{habit.name}</span>
-//       <span
-//         className={cn(
-//           'absolute left-0 top-[60%] h-[1px] w-full origin-left scale-x-0 bg-current transition-transform duration-300',
-//           {
-//             'scale-x-100': isSelected,
-//           },
-//         )}
-//       />
-//     </p>
-//     <div className="flex flex-col items-end gap-2">
-//       <span className="text-tiny text-default-500">
-//         {habit.streak} days streak
-//       </span>
-//       <Chip color="success" size="sm" variant="flat">
-//         {isSelected ? 'Completed' : 'Active'}
-//       </Chip>
-//     </div>
-//   </div>
-// </Checkbox>
+const DailyProgress = () => {
+  return (
+    <div className="space-y-2">
+      <h3 className="text-sm text-default-500">Daily progress</h3>
+      <Progress value={30} color="success" isStriped />
+    </div>
+  );
+};

@@ -6,9 +6,15 @@ import '@/styles/index.css';
 
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { routeTree } from './routeTree.gen';
 
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  context: {
+    auth: undefined!,
+  },
+});
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -19,6 +25,15 @@ declare module '@tanstack/react-router' {
 
 // Render the app
 
+function InnerApp() {
+  const auth = useAuth();
+
+  if (auth.isAuthReady) {
+    // Auth session is extracted from localStorage/cookies super fast. Loading component not needed
+    return <RouterProvider router={router} context={{ auth }} />;
+  }
+}
+
 const rootElement = document.getElementById('root')!;
 
 if (!rootElement.innerHTML) {
@@ -26,7 +41,9 @@ if (!rootElement.innerHTML) {
 
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <InnerApp />
+      </AuthProvider>
     </StrictMode>,
   );
 }

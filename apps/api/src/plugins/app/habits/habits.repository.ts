@@ -13,8 +13,7 @@ declare module 'fastify' {
 
 function createRepository(_app: FastifyInstance) {
   return {
-    getAll: (req: FastifyRequest) =>
-      getHabits({ supabase: req.supabase, user: req.user }),
+    getAll: (req: FastifyRequest) => getHabits({ supabase: req.supabase, user: req.user }),
 
     create: (req: FastifyRequest<{ Body: TCreateHabit }>) =>
       createHabit({

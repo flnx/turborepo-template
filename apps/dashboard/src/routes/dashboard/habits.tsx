@@ -5,10 +5,10 @@ import { HabitsProgress } from '@/components/habits-progress/habits-progress';
 import { StatsCard } from '@/components/stats-card/stats-card';
 
 export const Route = createFileRoute('/dashboard/habits')({
-  component: RouteComponent,
+  component: DashboardHabitsDataComponent,
 });
 
-function RouteComponent() {
+function DashboardHabitsDataComponent() {
   return (
     <section>
       <div>Dashboard</div>

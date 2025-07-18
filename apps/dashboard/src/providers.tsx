@@ -3,8 +3,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useRouter } from '@tanstack/react-router';
 
-import { AuthProvider } from './contexts/AuthContext';
-
 import type { NavigateOptions, ToOptions } from '@tanstack/react-router';
 
 declare module '@react-types/shared' {
@@ -25,7 +23,7 @@ function Providers({ children }: { children: React.ReactNode }) {
         navigate={(to, options) => router.navigate({ to, ...options })}
         useHref={(to) => router.buildLocation({ to }).href}
       >
-        <AuthProvider>{children}</AuthProvider>
+        {children}
       </HeroUIProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />

@@ -32,6 +32,8 @@ function InnerApp() {
     // Auth session is extracted from localStorage/cookies super fast. Loading component not needed
     return <RouterProvider router={router} context={{ auth }} />;
   }
+
+  return null;
 }
 
 const rootElement = document.getElementById('root')!;

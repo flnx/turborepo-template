@@ -1,7 +1,6 @@
 import { createContext, use, useEffect, useState } from 'react';
 
 import { Session } from '@supabase/supabase-js';
-// import { useRouter } from '@tanstack/react-router';
 
 import { supabase } from '@/utils/supabaseClient';
 
@@ -16,13 +15,12 @@ const AuthContext = createContext<TAuthContext | undefined>({
   session: null,
   signOut: async () => undefined,
   isAuthenticated: false,
-  isAuthReady: false
+  isAuthReady: false,
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [isAuthReady, setIsAuthReady] = useState(false);
-  // const router = useRouter();
 
   useEffect(() => {
     const authStateListener = supabase.auth.onAuthStateChange(async (_, session) => {
@@ -37,12 +35,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-
-    console.log(error);
-    // redirect to login or home-page
-    // remove tanstack cache
-    // setSession(null); // Optional, since Supabase also triggers onAuthStateChange
+    await supabase.auth.signOut();
+    // to-do: remove tanstack cache
   };
 
   const isAuthenticated = !!session?.user;
@@ -53,7 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         session,
         signOut,
         isAuthenticated,
-        isAuthReady
+        isAuthReady,
       }}
     >
       {children}

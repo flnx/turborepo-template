@@ -17,7 +17,7 @@ import {
   NavbarItem,
 } from '@heroui/navbar';
 import { cn } from '@heroui/theme';
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -96,6 +96,12 @@ const AuthButtons = () => {
 
 const UserDropdown = () => {
   const { signOut } = useAuth();
+  const router = useRouter();
+
+  const logout = async () => {
+    await signOut();
+    router.invalidate();
+  };
 
   return (
     <Dropdown placement="bottom-end">
@@ -109,11 +115,11 @@ const UserDropdown = () => {
           <p className="font-semibold">Signed in as</p>
           <p className="font-semibold">johndoe@example.com</p>
         </DropdownItem>
-        <DropdownItem key="settings" href="/dashboard" as={Link}>
-          Dashboard
+        <DropdownItem key="dashboard">
+          <Link to="/dashboard">Dashboard</Link>
         </DropdownItem>
         <DropdownItem key="settings">My Settings</DropdownItem>
-        <DropdownItem key="logout" color="danger" onPress={signOut}>
+        <DropdownItem key="logout" color="danger" onPress={logout}>
           Log Out
         </DropdownItem>
       </DropdownMenu>

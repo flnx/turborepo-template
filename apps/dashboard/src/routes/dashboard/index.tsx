@@ -6,7 +6,7 @@ import { HabitsList } from '@/components/habits-list/habit-list';
 import type { Habit } from '@/components/habits-list/habit-list';
 
 export const Route = createFileRoute('/dashboard/')({
-  component: DashboardDailyLogComponent,
+  component: DashboardDailyLog,
 });
 
 const habits: Habit[] = [
@@ -30,7 +30,7 @@ const habits: Habit[] = [
   },
 ];
 
-function DashboardDailyLogComponent() {
+function DashboardDailyLog() {
   return (
     <>
       <section className="max-w-md space-y-7">

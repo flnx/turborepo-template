@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/dashboard')({
-  component: DashboardTabsOutletComponent,
+  component: DashboardTabsOutlet,
   beforeLoad({ context }) {
     if (!context.auth.isAuthenticated) {
       throw redirect({
@@ -17,7 +17,7 @@ export const Route = createFileRoute('/dashboard')({
   },
 });
 
-function DashboardTabsOutletComponent() {
+function DashboardTabsOutlet() {
   return (
     <div className="container mt-4 space-y-10">
       <TabsNav />

@@ -4,6 +4,6 @@
 @custom-variant dark (&:is(.dark *));
 
 @utility container {
-  padding: 1.0155rem;
+  padding-inline: 1.0155rem;
   margin-inline: auto;
 }

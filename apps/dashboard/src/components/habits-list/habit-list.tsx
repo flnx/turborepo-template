@@ -19,11 +19,12 @@ export type Habit = {
   status: 'Active' | 'In Progress' | 'Completed';
   isCompleted: boolean;
   repeat: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  description?: string;
 };
 
 export const HabitsList = ({ habits }: { habits: Habit[] }) => {
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-y-12">
       <DailyProgress />
       {habits.map((habit) => (
         <Habit habit={habit} key={habit.id} />
@@ -41,17 +42,16 @@ const Habit = ({ habit }: { habit: Habit }) => {
         aria-label={habit.title}
         isSelected={isSelected}
         radius="sm"
+        size="lg"
         classNames={{
-          base: 'gap-1.5',
+          base: 'gap-3',
         }}
         onValueChange={setIsSelected}
-        lineThrough
       >
-        <div className="-mt-1 flex flex-col">
+        <div className="transition-colors-opacity -mt-1 flex flex-col gap-3 group-data-[selected=true]:opacity-45">
           <span className="font-semibold">{habit.title}</span>
-          <small className="absolute top-7 w-56 text-default-500 text-tiny">
-            10 days streak
-          </small>
+          <small className="text-default-500 text-sm">{habit?.description}</small>
+          <small className="text-default-500 text-tiny">10 days streak</small>
         </div>
       </Checkbox>
       <Dropdown
@@ -87,7 +87,7 @@ const Habit = ({ habit }: { habit: Habit }) => {
 const DailyProgress = () => {
   return (
     <div className="space-y-2">
-      <h3 className="text-sm text-default-500">Daily progress</h3>
+      <h3 className="text-default-500 text-sm">Daily progress</h3>
       <Progress value={30} color="success" isStriped />
     </div>
   );

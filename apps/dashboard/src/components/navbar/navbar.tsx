@@ -106,7 +106,7 @@ const UserDropdown = () => {
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
-        <button className="mt-1 h-8 w-8 outline-none transition-transform">
+        <button className="mt-1 h-8 w-8 outline-none transition-transform cursor-pointer">
           <Avatar size="md" src="https://i.pravatar.cc/150?u=a04258114e29526708c" />
         </button>
       </DropdownTrigger>

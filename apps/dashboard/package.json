@@ -24,6 +24,7 @@
     "@heroui/modal": "^2.2.20",
     "@heroui/navbar": "^2.2.21",
     "@heroui/number-input": "^2.0.14",
+    "@heroui/popover": "^2.3.23",
     "@heroui/progress": "^2.2.19",
     "@heroui/select": "^2.4.24",
     "@heroui/system": "^2.4.19",
@@ -39,7 +40,7 @@
     "@tanstack/react-query-devtools": "^5.81.0",
     "@tanstack/react-router": "^1.120.3",
     "@tanstack/react-router-devtools": "^1.120.3",
-    "framer-motion": "^12.23.6",
+    "framer-motion": "^12.23.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

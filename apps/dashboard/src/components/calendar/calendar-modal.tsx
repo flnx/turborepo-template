@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { Button, ButtonGroup } from '@heroui/button';
-import { Calendar, CalendarDate } from '@heroui/calendar';
+import { Calendar } from '@heroui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@heroui/popover';
 import {
   getLocalTimeZone,
@@ -54,7 +54,6 @@ export const CalendarModal = () => {
                 <Button onPress={() => setValue(nextMonth)}>Next month</Button>
               </ButtonGroup>
             }
-            // @ts-expect-error
             value={value}
             onChange={setValue}
             onFocusChange={setValue}

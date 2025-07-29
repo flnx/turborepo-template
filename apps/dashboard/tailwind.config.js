@@ -1,14 +1,14 @@
 // tailwind.config.js
-const {heroui} = require("@heroui/theme");
+const { heroui } = require('@heroui/theme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./node_modules/@heroui/theme/dist/components/(avatar|badge|button|calendar|card|checkbox|chip|divider|dropdown|input|link|modal|navbar|number-input|popover|progress|select|tabs|ripple|spinner|form|menu|listbox|scroll-shadow).js",
+    './node_modules/@heroui/theme/dist/components/(accordion|avatar|badge|button|calendar|card|checkbox|chip|divider|dropdown|input|link|listbox|modal|navbar|number-input|popover|progress|scroll-shadow|select|spacer|tabs|ripple|spinner|form|menu).js',
   ],
   theme: {
     extend: {},
   },
-  darkMode: "class",
+  darkMode: 'class',
   plugins: [heroui()],
 };

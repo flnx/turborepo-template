@@ -6,6 +6,8 @@ import {
   useLocation,
 } from '@tanstack/react-router';
 
+import { SideNav } from '@/components/sidenav/sidenav';
+
 export const Route = createFileRoute('/dashboard')({
   component: DashboardTabsOutlet,
   beforeLoad({ context }) {
@@ -19,9 +21,14 @@ export const Route = createFileRoute('/dashboard')({
 
 function DashboardTabsOutlet() {
   return (
-    <div className="container mt-4 space-y-10">
-      <TabsNav />
-      <Outlet />
+    <div className="container mt-4">
+      <div className="flex space-x-10">
+        <SideNav />
+        {/* <TabsNav /> */}
+        <div className="w-full">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 }

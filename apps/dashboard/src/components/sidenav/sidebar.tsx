@@ -13,6 +13,7 @@ import {
 } from '@heroui/listbox';
 import { cn } from '@heroui/theme';
 import { Tooltip } from '@heroui/tooltip';
+import { Selection } from '@react-types/shared';
 
 export enum SidebarItemType {
   Nest = 'nest',

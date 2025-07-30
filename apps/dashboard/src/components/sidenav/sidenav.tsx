@@ -9,7 +9,6 @@ import { Tooltip } from '@heroui/tooltip';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useMediaQuery } from 'usehooks-ts';
 
-import { AcmeIcon } from './acme';
 import Sidebar from './sidebar';
 import { sectionItemsWithTeams } from './sidebar-items';
 
@@ -24,10 +23,10 @@ export const SideNav = () => {
   }, []);
 
   return (
-    <div className="flex h-full min-h-[48rem] w-full">
+    <div className="flex h-full min-h-[48rem]">
       <div
         className={cn(
-          '!border-r-small border-divider transition-width relative flex h-full w-72 flex-col p-6',
+          '!border-r-small border-divider transition-width relative flex h-full w-72 flex-col',
           {
             'w-16 items-center px-2 py-6': isCompact,
           },
@@ -42,16 +41,17 @@ export const SideNav = () => {
             },
           )}
         >
-          <div className="bg-foreground flex h-8 w-8 items-center justify-center rounded-full">
-            <AcmeIcon className="text-background" />
+          <div className="flex w-full items-center justify-between">
+            <div></div>
+            <Button isIconOnly size="sm" variant="light" onPress={onToggle}>
+              <Icon
+                className="text-default-500"
+                height={24}
+                icon="solar:sidebar-minimalistic-outline"
+                width={24}
+              />
+            </Button>
           </div>
-          <span
-            className={cn('text-small font-bold uppercase opacity-100', {
-              'w-0 opacity-0': isCompact,
-            })}
-          >
-            Acme
-          </span>
         </div>
         <Spacer y={8} />
         <div className="flex items-center gap-3 px-3">
@@ -149,22 +149,6 @@ export const SideNav = () => {
             </Button>
           </Tooltip>
         </div>
-      </div>
-      <div className="w-full flex-1 flex-col p-4">
-        <header className="rounded-medium border-small border-divider flex items-center gap-3 p-4">
-          <Button isIconOnly size="sm" variant="light" onPress={onToggle}>
-            <Icon
-              className="text-default-500"
-              height={24}
-              icon="solar:sidebar-minimalistic-outline"
-              width={24}
-            />
-          </Button>
-          <h2 className="text-medium text-default-700 font-medium">Overview</h2>
-        </header>
-        <main className="mt-4 h-full w-full overflow-visible">
-          <div className="rounded-medium border-small border-divider flex h-[90%] w-full flex-col gap-4" />
-        </main>
       </div>
     </div>
   );

@@ -3,6 +3,8 @@
 import { Icon } from '@iconify/react';
 import { forwardRef, Key, useCallback, useState } from 'react';
 
+import type { RoutePaths } from '@/types/routes';
+
 import { Accordion, AccordionItem } from '@heroui/accordion';
 import {
   Listbox,
@@ -15,7 +17,7 @@ import { cn } from '@heroui/theme';
 import { Tooltip } from '@heroui/tooltip';
 import { Selection } from '@react-types/shared';
 
-export enum SidebarItemType {
+enum SidebarItemType {
   Nest = 'nest',
 }
 
@@ -23,7 +25,7 @@ export type SidebarItem = {
   key: string;
   title: string;
   icon?: string;
-  href?: string;
+  href?: RoutePaths;
   type?: SidebarItemType.Nest;
   startContent?: React.ReactNode;
   endContent?: React.ReactNode;

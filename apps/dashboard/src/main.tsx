@@ -49,3 +49,5 @@ if (!rootElement.innerHTML) {
     </StrictMode>,
   );
 }
+
+export type TanstackRouterPaths = keyof typeof router.routesById;

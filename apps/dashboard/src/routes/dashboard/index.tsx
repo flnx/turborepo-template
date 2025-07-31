@@ -1,12 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { CalendarModal } from '@/components/calendar/calendar-modal';
 import { HorizontalCalendar } from '@/components/calendar/horizontal-calendar';
 import { HabitForm } from '@/components/habit-form/habit-form';
 import { HabitsList } from '@/components/habits-list/habit-list';
 import { StatsCard } from '@/components/stats-card/stats-card';
 
 import type { Habit } from '@/components/habits-list/habit-list';
-import { CalendarModal } from '@/components/calendar/calendar-modal';
 
 export const Route = createFileRoute('/dashboard/')({
   component: DashboardDailyLog,
@@ -47,8 +47,8 @@ const habits: Habit[] = [
 function DashboardDailyLog() {
   return (
     <section className="space-y-14">
-      <StatsCard />
-      <CalendarModal />
+      {/* <StatsCard /> */}
+      {/* <CalendarModal /> */}
       <section className="h-full max-w-md space-y-24">
         {/* <HorizontalCalendar /> */}
         <HabitsList habits={habits} />

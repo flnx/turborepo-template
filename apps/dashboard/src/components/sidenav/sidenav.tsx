@@ -10,7 +10,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { useMediaQuery } from 'usehooks-ts';
 
 import Sidebar from './sidebar';
-import { sectionItemsWithTeams } from './sidebar-items';
+import { sectionItems } from './sidebar-items';
 
 export const SideNav = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -72,7 +72,7 @@ export const SideNav = () => {
           <Sidebar
             defaultSelectedKey="home"
             isCompact={isCompact}
-            items={sectionItemsWithTeams}
+            items={sectionItems}
           />
         </ScrollShadow>
         <Spacer y={2} />

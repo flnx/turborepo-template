@@ -25,7 +25,7 @@ export type Habit = {
 export const HabitsList = ({ habits }: { habits: Habit[] }) => {
   return (
     <div className="flex flex-col gap-y-12">
-      <DailyProgress />
+      {/* <DailyProgress /> */}
       {habits.map((habit) => (
         <Habit habit={habit} key={habit.id} />
       ))}
@@ -48,10 +48,10 @@ const Habit = ({ habit }: { habit: Habit }) => {
         }}
         onValueChange={setIsSelected}
       >
-        <div className="transition-colors-opacity -mt-1 flex flex-col gap-3 group-data-[selected=true]:opacity-45">
+        <div className="transition-colors-opacity -mt-1 flex flex-col gap-1 group-data-[selected=true]:opacity-45">
           <span className="font-semibold">{habit.title}</span>
-          <small className="text-default-500 text-sm">{habit?.description}</small>
-          <small className="text-default-500 text-tiny">10 days streak</small>
+          {/* <small className="text-default-500 text-tiny">{habit?.description}</small> */}
+          <small className="text-default-500 text-tiny mt-1">10 days streak</small>
         </div>
       </Checkbox>
       <Dropdown

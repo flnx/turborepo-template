@@ -1,3 +1,4 @@
+import { Icon } from '@iconify/react';
 import { useState } from 'react';
 
 import { Button, ButtonGroup } from '@heroui/button';
@@ -25,7 +26,13 @@ export const CalendarModal = () => {
   return (
     <Popover showArrow placement="bottom">
       <PopoverTrigger>
-        <button>Show calendar</button>
+        <Button
+          startContent={
+            <Icon height={20} icon="solar:calendar-outline" width={20} />
+          }
+        >
+          Calendar
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="p-1">
         <div className="flex flex-col gap-4">

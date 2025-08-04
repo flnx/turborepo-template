@@ -10,6 +10,7 @@ import {
   DropdownTrigger,
 } from '@heroui/dropdown';
 import { Progress } from '@heroui/progress';
+import { cn } from '@heroui/theme';
 
 export type Habit = {
   id: string;
@@ -42,18 +43,32 @@ const Habit = ({ habit }: { habit: Habit }) => {
         aria-label={habit.title}
         isSelected={isSelected}
         radius="sm"
-        size="lg"
         classNames={{
           base: 'gap-3',
         }}
         onValueChange={setIsSelected}
-      >
-        <div className="transition-colors-opacity -mt-1 flex flex-col gap-1 group-data-[selected=true]:opacity-45">
-          <span className="font-semibold">{habit.title}</span>
-          {/* <small className="text-default-500 text-tiny">{habit?.description}</small> */}
-          <small className="text-default-500 text-tiny mt-1">10 days streak</small>
+      />
+      <div className="ml-1 flex w-full items-center justify-between gap-1">
+        <span
+          className={cn('transition-colors-opacity text-sm font-semibold', {
+            'opacity-45': isSelected,
+          })}
+        >
+          {habit.title}
+        </span>
+        {/* <small className="text-default-500 text-tiny">{habit?.description}</small> */}
+        <div className="flex items-center gap-8">
+          <small className="text-default-500 text-tiny">10 days streak</small>
+
+          {isSelected ? (
+            <small className="text-success text-tiny w-20 text-center">Completed</small>
+          ) : (
+            <small className="text-default-500 text-tiny w-20 flex-1 text-center">
+              In Progress
+            </small>
+          )}
         </div>
-      </Checkbox>
+      </div>
       <Dropdown
         classNames={{
           content: 'min-w-[120px]',
@@ -84,11 +99,11 @@ const Habit = ({ habit }: { habit: Habit }) => {
   );
 };
 
-const DailyProgress = () => {
-  return (
-    <div className="space-y-2">
-      <h3 className="text-default-500 text-sm">Daily progress</h3>
-      <Progress value={30} color="success" isStriped />
-    </div>
-  );
-};
+// const DailyProgress = () => {
+//   return (
+//     <div className="space-y-2">
+//       <h3 className="text-default-500 text-sm">Daily progress</h3>
+//       <Progress value={30} color="success" isStriped />
+//     </div>
+//   );
+// };

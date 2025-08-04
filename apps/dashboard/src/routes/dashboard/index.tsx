@@ -47,13 +47,14 @@ const habits: Habit[] = [
 function DashboardDailyLog() {
   return (
     <section className="space-y-14">
-      {/* <StatsCard /> */}
+      <h2 className="text-2xl font-bold">Today's Habits</h2>
       {/* <CalendarModal /> */}
-      <section className="h-full max-w-md space-y-24">
+      <div className="h-full space-y-24">
         {/* <HorizontalCalendar /> */}
         <HabitsList habits={habits} />
         <HabitForm />
-      </section>
+      </div>
+      {/* <StatsCard /> */}
     </section>
   );
 }

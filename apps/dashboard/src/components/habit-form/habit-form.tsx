@@ -1,3 +1,5 @@
+import { Icon } from '@iconify/react';
+
 import { Button } from '@heroui/button';
 import { Input } from '@heroui/input';
 import {
@@ -16,8 +18,14 @@ export const HabitForm = () => {
 
   return (
     <div>
-      <Button color="primary" onPress={onOpen} size="md">
-        Add Habit
+      <Button
+        className="bg-default-50 text-[13px]"
+        radius="lg"
+        onPress={onOpen}
+        size="md"
+        endContent={<Icon icon="solar:add-circle-line-duotone" fontSize={25} />}
+      >
+        New Habit
       </Button>
       <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
         <ModalContent>

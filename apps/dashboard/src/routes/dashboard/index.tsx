@@ -1,3 +1,6 @@
+import { Chip } from '@heroui/chip';
+import { Divider } from '@heroui/divider';
+import { CircularProgress } from '@heroui/progress';
 import { createFileRoute } from '@tanstack/react-router';
 
 import { CalendarModal } from '@/components/calendar/calendar-modal';
@@ -46,13 +49,39 @@ const habits: Habit[] = [
 
 function DashboardDailyLog() {
   return (
-    <section className="space-y-14">
-      <h2 className="text-2xl font-bold">Today's Habits</h2>
+    <section>
+      <div className="flex justify-between mb-14">
+        <CircularProgress
+          value={50}
+          showValueLabel
+          size="lg"
+          color="danger"
+          className="mb-4"
+          classNames={{
+            svg: 'w-16 h-16',
+            value: 'text-[12px]',
+          }}
+        />
+        <HabitForm />
+      </div>
+
+      <div className="flex items-center justify-between px-2">
+        <section className="relative flex items-center gap-2">
+          <h2 className="text-xl font-bold">Today</h2>
+          <Chip size="sm" variant="dot" className="mt-0.5" color="success">
+            5
+          </Chip>
+        </section>
+        <time dateTime="12-05-12" className="text-tiny text-default-800">
+          Thursday, 02 May 2020
+        </time>
+      </div>
+
+      <Divider className="mb-6 mt-4" />
       {/* <CalendarModal /> */}
       <div className="h-full space-y-24">
         {/* <HorizontalCalendar /> */}
         <HabitsList habits={habits} />
-        <HabitForm />
       </div>
       {/* <StatsCard /> */}
     </section>

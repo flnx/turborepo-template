@@ -4,7 +4,7 @@ import logo from '@/assets/logox.png';
 import { Button } from '@heroui/button';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import { supabase } from '@/utils/supabaseClient';
+// import { supabase } from '@/utils/supabaseClient';
 
 export const Route = createFileRoute('/login')({
   component: LoginComponent,
@@ -19,14 +19,14 @@ export const Route = createFileRoute('/login')({
 });
 
 function LoginComponent() {
-  const signIn = () => {
-    supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: 'http://localhost:5173/dashboard'
-      }
-    });
-  };
+  // const signIn = () => {
+  //   supabase.auth.signInWithOAuth({
+  //     provider: 'google',
+  //     options: {
+  //       redirectTo: 'http://localhost:5173/dashboard'
+  //     }
+  //   });
+  // };
 
   return (
     <section className="mt-4">
@@ -43,7 +43,7 @@ function LoginComponent() {
             <Button
               startContent={<Icon icon="flat-color-icons:google" width={24} />}
               variant="bordered"
-              onPress={signIn}
+              // onPress={signIn}
             >
               Continue with Google
             </Button>

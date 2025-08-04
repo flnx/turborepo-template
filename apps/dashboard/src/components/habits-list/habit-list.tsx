@@ -3,13 +3,13 @@ import { useState } from 'react';
 
 import { Button } from '@heroui/button';
 import { Checkbox } from '@heroui/checkbox';
+import { Chip } from '@heroui/chip';
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
 } from '@heroui/dropdown';
-import { Progress } from '@heroui/progress';
 import { cn } from '@heroui/theme';
 
 export type Habit = {
@@ -25,8 +25,7 @@ export type Habit = {
 
 export const HabitsList = ({ habits }: { habits: Habit[] }) => {
   return (
-    <div className="flex flex-col gap-y-12">
-      {/* <DailyProgress /> */}
+    <div className="flex flex-col gap-1">
       {habits.map((habit) => (
         <Habit habit={habit} key={habit.id} />
       ))}
@@ -38,17 +37,15 @@ const Habit = ({ habit }: { habit: Habit }) => {
   const [isSelected, setIsSelected] = useState(false);
 
   return (
-    <div className="flex w-full">
+    <div className="hover:bg-default-50/15 flex w-full rounded-md p-2">
       <Checkbox
         aria-label={habit.title}
         isSelected={isSelected}
         radius="sm"
-        classNames={{
-          base: 'gap-3',
-        }}
         onValueChange={setIsSelected}
+        color="success"
       />
-      <div className="ml-1 flex w-full items-center justify-between gap-1">
+      <div className="ml-2 flex w-full items-center justify-between gap-1">
         <span
           className={cn('transition-colors-opacity text-sm font-semibold', {
             'opacity-45': isSelected,
@@ -57,15 +54,17 @@ const Habit = ({ habit }: { habit: Habit }) => {
           {habit.title}
         </span>
         {/* <small className="text-default-500 text-tiny">{habit?.description}</small> */}
-        <div className="flex items-center gap-8">
+        <div className="mr-4 flex w-52 items-center justify-between gap-8">
           <small className="text-default-500 text-tiny">10 days streak</small>
 
           {isSelected ? (
-            <small className="text-success text-tiny w-20 text-center">Completed</small>
+            <Chip color="success" className="text-tiny">
+              Completed
+            </Chip>
           ) : (
-            <small className="text-default-500 text-tiny w-20 flex-1 text-center">
+            <Chip color="default" className="text-tiny">
               In Progress
-            </small>
+            </Chip>
           )}
         </div>
       </div>
@@ -98,12 +97,3 @@ const Habit = ({ habit }: { habit: Habit }) => {
     </div>
   );
 };
-
-// const DailyProgress = () => {
-//   return (
-//     <div className="space-y-2">
-//       <h3 className="text-default-500 text-sm">Daily progress</h3>
-//       <Progress value={30} color="success" isStriped />
-//     </div>
-//   );
-// };

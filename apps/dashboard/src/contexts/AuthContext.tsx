@@ -2,7 +2,7 @@ import { createContext, use, useEffect, useState } from 'react';
 
 import { Session } from '@supabase/supabase-js';
 
-import { supabase } from '@/utils/supabaseClient';
+// import { supabase } from '@/utils/supabaseClient';
 
 export type TAuthContext = {
   session: Session | null;
@@ -23,23 +23,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthReady, setIsAuthReady] = useState(false);
 
   useEffect(() => {
-    const authStateListener = supabase.auth.onAuthStateChange(async (_, session) => {
-      setSession(session);
-      setIsAuthReady(true);
-      // router.invalidate();
-    });
+    // const authStateListener = supabase.auth.onAuthStateChange(async (_, session) => {
+    //   setSession(session);
+    //   setIsAuthReady(true);
+    //   // router.invalidate();
+    // });
+    setIsAuthReady(true);
 
     return () => {
-      authStateListener.data.subscription.unsubscribe();
+      // authStateListener.data.subscription.unsubscribe();
     };
   }, []);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    // await supabase.auth.signOut();
     // to-do: remove tanstack cache
   };
 
-  const isAuthenticated = !!session?.user;
+  const isAuthenticated = !!!session?.user;
 
   return (
     <AuthContext

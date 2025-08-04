@@ -22,6 +22,8 @@ export const SideNav = () => {
     setIsCollapsed((prev) => !prev);
   }, []);
 
+  console.log(import.meta.env);
+
   return (
     <div className="flex h-full min-h-[48rem]">
       <div

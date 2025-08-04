@@ -4,8 +4,6 @@ import logo from '@/assets/logox.png';
 import { Button } from '@heroui/button';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-// import { supabase } from '@/utils/supabaseClient';
-
 export const Route = createFileRoute('/login')({
   component: LoginComponent,
 
@@ -16,17 +14,11 @@ export const Route = createFileRoute('/login')({
       });
     }
   },
+  loader: ({ context }) => context.auth,
 });
 
 function LoginComponent() {
-  // const signIn = () => {
-  //   supabase.auth.signInWithOAuth({
-  //     provider: 'google',
-  //     options: {
-  //       redirectTo: 'http://localhost:5173/dashboard'
-  //     }
-  //   });
-  // };
+  const { signIn } = Route.useLoaderData();
 
   return (
     <section className="mt-4">
@@ -38,12 +30,12 @@ function LoginComponent() {
             Log in to your account to continue
           </p>
         </div>
-        <div className="mt-2 flex w-full max-w-sm flex-col gap-4 rounded-large bg-content1 px-8 py-6 shadow-small">
+        <div className="rounded-large bg-content1 shadow-small mt-2 flex w-full max-w-sm flex-col gap-4 px-8 py-6">
           <div className="flex flex-col gap-2">
             <Button
               startContent={<Icon icon="flat-color-icons:google" width={24} />}
               variant="bordered"
-              // onPress={signIn}
+              onPress={signIn}
             >
               Continue with Google
             </Button>

@@ -39,7 +39,7 @@ export const Navbar = () => {
       {/* Left Content */}
       <NavbarBrand>
         <Link to="/" className="flex items-center justify-center">
-          <div className="rounded-full bg-foreground text-background">
+          <div className="bg-foreground text-background rounded-full">
             <img
               src={logo}
               alt="logo"
@@ -106,7 +106,7 @@ const UserDropdown = () => {
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
-        <button className="mt-1 h-8 w-8 outline-none transition-transform cursor-pointer">
+        <button className="mt-1 h-8 w-8 cursor-pointer transition-transform outline-none">
           <Avatar size="md" src="https://i.pravatar.cc/150?u=a04258114e29526708c" />
         </button>
       </DropdownTrigger>

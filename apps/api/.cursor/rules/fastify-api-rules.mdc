@@ -1,0 +1,129 @@
+---
+description: Fastify API rules when applying features (routes, plugins, schemas, env, business logic)
+alwaysApply: false
+---
+
+## Plugins & routes
+
+#### The project uses [fastify-autoload](https://github.com/fastify/fastify-autoload) to automatically register all plugins and routes from the `src/plugins` and `src/routes` directories. This keeps the codebase modular and easy to extend.
+
+- To add a new plugin or route:
+
+  - Place your plugin in `src/plugins/`.
+  - Place your route in `src/routes/`.
+
+- `src/plugins/**`: Fastify plugins (e.g., authentication, CORS, etc.) are automatically loaded from here.
+  - `plugins/external`: cors, helmet, rate-limit, sensible, under-pressure (registered first).
+  - `plugins/app`: Feature repositories (act like controllers), `authorization` (JWT via Supabase) → `supabase` (depends on authorization).
+- `src/routes/**`: Routes handlers are placed here and autoloaded.
+- `src/app.ts**`: Main entry point. Bootstraps Fastify, loads plugins/routes, and starts the server.
+- `src/index.ts**`: Main entry point. Bootstraps Fastify, loads plugins/routes, and starts the server.
+- `src/routes/`: define route plugins (e.g., `routes/v1/habits`).
+
+They will be registered automatically on server startup.
+
+#### How plugin repositories work
+
+- Plugin repository acts like a controller. Example: `src/plugins/app/habits/habits.repository.ts` and its service within the same folder `src/plugins/app/habits/habits.service.ts`.
+
+```ts
+import { FastifyInstance, FastifyRequest } from 'fastify';
+import fp from 'fastify-plugin';
+
+import { createHabit, getHabits } from './habits.service';
+
+import type { CreateHabit } from '@repo/schemas/types/habit';
+
+declare module 'fastify' {
+  export interface FastifyInstance {
+    habitsRepository: ReturnType<typeof createRepository>;
+  }
+}
+
+function createRepository(_app: FastifyInstance) {
+  return {
+    getAll: (req: FastifyRequest) =>
+      getHabits({ supabase: req.supabase, user: req.user }),
+
+    create: (req: FastifyRequest<{ Body: CreateHabit }>) =>
+      createHabit({
+        supabase: req.supabase,
+        user: req.user,
+        userData: req.body,
+      }),
+  };
+}
+
+export default fp(
+  function (fastify) {
+    fastify.decorate('habitsRepository', createRepository(fastify));
+  },
+  {
+    name: 'tasks-repository',
+  },
+);
+```
+
+```ts
+import { createService } from '@/utils/createService';
+
+import type { CreateHabit } from '@repo/schemas/types/habit';
+import type { TServiceContext } from '@/utils/createService';
+
+export const getHabits = createService(async ({ supabase, user }) => {
+  const { data, error } = await supabase
+    .from('habits')
+    .select('*')
+    .eq('user_id', user.id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+});
+
+type CreateHabitParams = TServiceContext & {
+  userData: CreateHabit;
+};
+
+export const createHabit = createService(
+  async ({ supabase, userData }: CreateHabitParams) => {
+    const { data, error, status } = await supabase
+      .from('habits')
+      .insert<CreateHabit>(userData);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return { data, error, status };
+  },
+);
+```
+
+## Conventions
+- Always validate with Zod v4 and export JSON Schema via `z.toJSONSchema`. Put schemas in `src/schemas`.
+- Business logic in `src/plugins/app/*.service.ts` using `createService(...)` from `src/utils/createService.ts` with `{ supabase, user, ... }` context.
+- Data access exposed via repository plugins that decorate `fastify` (e.g., `app.habitsRepository`).
+- Routes should be thin; import repository methods and attach request typing via generics.
+
+## Adding an endpoint
+
+1. Define/extend Zod schemas in `src/schemas/*`.
+2. Add or extend service functions in `plugins/app/<feature>/*.service.ts`.
+3. Expose them via a repository plugin in `plugins/app/<feature>/*.repository.ts` and `decorate` the app.
+4. Add a route plugin in `routes/v1/<feature>/index.ts`:
+   - Import schemas for `schema.body/params/querystring`.
+   - Use repository methods; rely on `req.user` and `req.supabase` (set by plugins).
+5. Keep plugin order: `authorization` → `supabase` → feature repositories.
+
+## Response & errors
+
+- Throw in services; let the central error handler map to `{ message }` with proper codes.
+- Do not return raw Supabase errors to clients; sanitize messages.
+
+## Security
+
+- JWT is required on every request (global `onRequest` in `authorization`).
+- 404 handler is rate limited; don’t remove rate limiting.

@@ -1,7 +1,7 @@
 import { createService } from '@/utils/createService';
 
-import type { TCreateHabit } from '@/schemas/habits.schema';
 import type { TServiceContext } from '@/utils/createService';
+import type { CreateHabit } from '@repo/schemas/types/habit';
 
 export const getHabits = createService(async ({ supabase, user }) => {
   const { data, error } = await supabase
@@ -17,14 +17,14 @@ export const getHabits = createService(async ({ supabase, user }) => {
 });
 
 type CreateHabitParams = TServiceContext & {
-  userData: TCreateHabit;
+  userData: CreateHabit;
 };
 
 export const createHabit = createService(
   async ({ supabase, userData }: CreateHabitParams) => {
     const { data, error, status } = await supabase
       .from('habits')
-      .insert<TCreateHabit>(userData);
+      .insert<CreateHabit>(userData);
 
     if (error) {
       throw new Error(error.message);

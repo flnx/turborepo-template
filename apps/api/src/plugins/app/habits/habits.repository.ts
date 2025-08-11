@@ -3,7 +3,7 @@ import fp from 'fastify-plugin';
 
 import { createHabit, getHabits } from './habits.service';
 
-import type { TCreateHabit } from '@/schemas/habits.schema';
+import type { CreateHabit } from '@repo/schemas/types/habit';
 
 declare module 'fastify' {
   export interface FastifyInstance {
@@ -15,7 +15,7 @@ function createRepository(_app: FastifyInstance) {
   return {
     getAll: (req: FastifyRequest) => getHabits({ supabase: req.supabase, user: req.user }),
 
-    create: (req: FastifyRequest<{ Body: TCreateHabit }>) =>
+    create: (req: FastifyRequest<{ Body: CreateHabit }>) =>
       createHabit({
         supabase: req.supabase,
         user: req.user,

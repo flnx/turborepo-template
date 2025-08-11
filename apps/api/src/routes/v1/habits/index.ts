@@ -2,10 +2,10 @@ import { FastifyInstance } from 'fastify';
 
 import { createHabitJSONSchema } from '@/schemas/habits.schema';
 
-import type { TCreateHabit } from '@/schemas/habits.schema';
+import type { CreateHabit } from '@repo/schemas/types/habit';
 
 type CreateHabitRoute = {
-  Body: TCreateHabit;
+  Body: CreateHabit;
 };
 
 export default async function habitRoutes(app: FastifyInstance) {

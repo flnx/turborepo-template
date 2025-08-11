@@ -15,6 +15,7 @@ export default defineConfig({
   tsconfig: './tsconfig.json',
   clean: true,
   sourcemap: true,
+  noExternal: ['@repo/schemas'],
   splitting: false,
   skipNodeModulesBundle: true,
 });

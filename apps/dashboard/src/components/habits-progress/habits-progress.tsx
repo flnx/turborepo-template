@@ -43,11 +43,11 @@ export const HabitsProgress = () => {
       {data.map(({ title, value, maxValue }, index) => (
         <Card
           key={index}
-          className="flex flex-col border border-transparent p-4 pt-3 dark:border-default-100"
+          className="dark:border-default-100 flex flex-col border border-transparent p-4 pt-3"
         >
           <div className="flex flex-col items-start justify-start gap-y-1 px-0.5">
-            <dt className="text-medium font-medium text-default-700">{title}</dt>
-            <dd className="text-xs font-medium text-default-500">
+            <dt className="text-medium text-default-700 font-medium">{title}</dt>
+            <dd className="text-default-500 text-xs font-medium">
               {value} days of {maxValue}
             </dd>
           </div>
@@ -71,7 +71,7 @@ export const HabitsProgress = () => {
             <DropdownTrigger>
               <Button
                 isIconOnly
-                className="absolute right-2 top-2 w-auto rounded-full"
+                className="absolute top-2 right-2 w-auto rounded-full"
                 size="sm"
                 variant="light"
               >

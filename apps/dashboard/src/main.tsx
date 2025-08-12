@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client';
 
 import '@/styles/index.css';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -13,8 +15,11 @@ const router = createRouter({
   routeTree,
   context: {
     auth: undefined!,
+    queryClient: undefined!,
   },
 });
+
+const queryClient = new QueryClient();
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -30,7 +35,7 @@ function InnerApp() {
 
   if (auth.isAuthReady) {
     // Auth session is extracted from localStorage/cookies super fast. Loading component not needed
-    return <RouterProvider router={router} context={{ auth }} />;
+    return <RouterProvider router={router} context={{ auth, queryClient }} />;
   }
 
   return null;
@@ -43,9 +48,12 @@ if (!rootElement.innerHTML) {
 
   root.render(
     <StrictMode>
-      <AuthProvider>
-        <InnerApp />
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <InnerApp />
+        </AuthProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </StrictMode>,
   );
 }

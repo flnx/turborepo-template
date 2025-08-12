@@ -1,0 +1,20 @@
+---
+description: Dashboard (React + Vite + TanStack Router + Tailwind 4) rules.
+alwaysApply: false
+---
+## Tech & structure
+- React 19 + Vite 6, TanStack Router v1, Tailwind v4.
+- Routes live under `src/routes/*` with file-based routing.
+- Auth via `AuthContext`; the router context must include `{ auth }` (see `src/main.tsx`).
+- Protect private routes with `beforeLoad` + `redirect` (e.g., `/dashboard`).
+
+## Conventions
+- Use `@repo/ui` for shared components; add new shared UI to `packages/ui`.
+- Co-locate component styles; Tailwind class order is auto-sorted by Prettier plugin.
+- Fetching: `@tanstack/react-query` preferred; colocate queries with screens.
+
+## Adding a page/route
+1. Create a file route under `src/routes/...`.
+2. If protected, add a `beforeLoad` guard using `context.auth`.
+4. Keep side effects in hooks; keep components presentational where possible.
+---

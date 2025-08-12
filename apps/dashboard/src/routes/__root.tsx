@@ -1,4 +1,5 @@
 import Providers from '@/providers';
+import { QueryClient } from '@tanstack/react-query';
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
@@ -8,6 +9,7 @@ import type { TAuthContext } from '@/contexts/AuthContext';
 
 export interface MyRouterContext {
   auth: TAuthContext;
+  queryClient: QueryClient;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({

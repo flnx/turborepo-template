@@ -3,11 +3,11 @@ import { Divider } from '@heroui/divider';
 import { CircularProgress } from '@heroui/progress';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { CalendarModal } from '@/components/calendar/calendar-modal';
-import { HorizontalCalendar } from '@/components/calendar/horizontal-calendar';
+// import { CalendarModal } from '@/components/calendar/calendar-modal';
+// import { HorizontalCalendar } from '@/components/calendar/horizontal-calendar';
 import { HabitForm } from '@/components/habit-form/habit-form';
 import { HabitsList } from '@/components/habits-list/habit-list';
-import { StatsCard } from '@/components/stats-card/stats-card';
+// import { StatsCard } from '@/components/stats-card/stats-card';
 
 import type { Habit } from '@/components/habits-list/habit-list';
 

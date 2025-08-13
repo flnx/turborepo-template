@@ -11,15 +11,17 @@ import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { routeTree } from './routeTree.gen';
 
+const queryClient = new QueryClient();
+
 const router = createRouter({
   routeTree,
   context: {
     auth: undefined!,
     queryClient: undefined!,
   },
+  scrollRestoration: true,
 });
 
-const queryClient = new QueryClient();
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {

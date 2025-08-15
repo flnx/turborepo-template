@@ -23,6 +23,8 @@ export const Route = createFileRoute('/dashboard/')({
   component: () => {
     const { data, error } = useSuspenseQuery(getHabitsQueryOptions());
 
+    console.log("HEY FETCHED HABITS THERE ");
+
     console.log(data);
 
     return (

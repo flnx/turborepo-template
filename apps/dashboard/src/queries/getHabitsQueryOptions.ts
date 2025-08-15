@@ -1,4 +1,4 @@
-import { getHabits } from '@/api/getHabits';
+import { getHabits } from '@/api/habits';
 import { queryOptions } from '@tanstack/react-query';
 
 export const habitKeys = {

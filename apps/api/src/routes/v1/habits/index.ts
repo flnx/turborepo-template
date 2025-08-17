@@ -19,7 +19,7 @@ export default async function habitRoutes(app: FastifyInstance) {
       }),
     schema: {
       response: {
-        '2xx': habitsSchema,
+        200: habitsSchema,
       },
     },
   });

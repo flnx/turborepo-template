@@ -19,11 +19,10 @@ export const Route = createFileRoute('/dashboard/')({
     const queryClient = context.queryClient;
     queryClient.ensureQueryData(getHabitsQueryOptions());
   },
-  // errorComponent: () => <div>Error</div>,
+  errorComponent: ({ error }) => <div>{error.message}</div>,
+  notFoundComponent: () => <div>Not Found</div>,
   component: () => {
-    const { data, error } = useSuspenseQuery(getHabitsQueryOptions());
-
-    console.log("HEY FETCHED HABITS THERE ");
+    const { data } = useSuspenseQuery(getHabitsQueryOptions());
 
     console.log(data);
 

@@ -3,6 +3,9 @@ import { fileURLToPath } from 'node:url';
 import fastifyAutoload from '@fastify/autoload';
 import { FastifyInstance, FastifyPluginOptions } from 'fastify';
 
+import config from './config/options';
+import { AppError } from './utils/app-errors';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -16,7 +19,7 @@ export async function serviceApp(app: FastifyInstance, opts: FastifyPluginOption
 
   // This loads all application plugins defined in plugins/app
   // Those should be support plugins that are reused the application
- app.register(fastifyAutoload, {
+  app.register(fastifyAutoload, {
     dir: join(__dirname, 'plugins/app'),
     options: { ...opts },
   });
@@ -41,25 +44,28 @@ export async function serviceApp(app: FastifyInstance, opts: FastifyPluginOption
           params: request.params,
         },
       },
-      'Unhandled error occurred',
+      'ERROR',
     );
+
+    // if (err instanceof AppError) {
+    //   reply.code(err.statusCode);
+    // }
+
+    let message = config.nodeEnv === 'development' ? err.message : 'Something went wrong';
 
     reply.code(err.statusCode ?? 500);
 
-    let message = 'Internal Server Error';
-
-    if (err.statusCode && err.statusCode < 500) {
-      message = err.message;
-    }
-
-    return { message };
+    return {
+      code: err.code,
+      message,
+    };
   });
 
   // An attacker could search for valid URLs if your 404 error handling is not rate limited.
   app.setNotFoundHandler(
     {
       preHandler: app.rateLimit({
-        max: 4,
+        max: 30,
         timeWindow: '1 minute',
       }),
     },

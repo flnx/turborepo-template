@@ -1,10 +1,5 @@
 import { z } from "zod";
-import { CreateHabitSchema } from "../schemas/habit";
+import { CreateHabitSchema, HabitSchema } from "../schemas/habit";
 
 export type CreateHabit = z.infer<typeof CreateHabitSchema>;
-
-export type Habit = CreateHabit & {
-  id: string;
-  created_at: Date;
-  user_id: string;
-};
+export type Habit = z.infer<typeof HabitSchema>;

@@ -74,6 +74,8 @@ export const Navbar = () => {
 const AuthButtons = () => {
   const { session } = useAuth();
 
+  console.log(session?.access_token)
+
   const isLoggedIn = !!session?.user;
 
   return isLoggedIn ? (

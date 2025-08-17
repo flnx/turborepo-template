@@ -1,7 +1,17 @@
+import { CreateHabitSchema, HabitSchema } from '@repo/schemas/schemas/habit';
 import { z } from 'zod/v4';
-import { CreateHabitSchema } from '@repo/schemas/schemas/habit'
 
 export const createHabitJSONSchema = z.toJSONSchema(CreateHabitSchema, {
+  target: 'draft-7',
+  unrepresentable: 'any',
+});
+
+export const habitSchema = z.toJSONSchema(HabitSchema, {
+  target: 'draft-7',
+  unrepresentable: 'any',
+});
+
+export const habitsSchema = z.toJSONSchema(z.array(HabitSchema), {
   target: 'draft-7',
   unrepresentable: 'any',
 });

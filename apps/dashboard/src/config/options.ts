@@ -18,6 +18,4 @@ const config = {
   supabase_public_key: env.VITE_SUPABASE_PUBLIC_KEY,
 };
 
-console.log(env);
-
 export default config;

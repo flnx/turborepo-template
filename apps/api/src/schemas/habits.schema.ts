@@ -9,6 +9,7 @@ export const createHabitJSONSchema = z.toJSONSchema(CreateHabitSchema, {
   target: 'draft-7',
   unrepresentable: 'any',
 });
+
 export const createHabitWithScheduleJSONSchema = z.toJSONSchema(
   CreateHabitWithScheduleSchema,
   {

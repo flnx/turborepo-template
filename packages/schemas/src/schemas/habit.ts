@@ -4,7 +4,7 @@ import { z } from "zod/v4";
 export const CreateHabitSchema = z
   .object({
     title: z.string().min(1, "Title is required"),
-    description: z.string().nullable(),
+    description: z.string(),
   })
   .meta({ $id: "create-habit" });
 
@@ -15,18 +15,11 @@ export const HabitSchema = CreateHabitSchema.extend({
 }).meta({ $id: "habit" });
 
 // Habit Schedule
-export const CreateHabitScheduleSchema = z
+const CreateHabitScheduleSchema = z
   .object({
     days_of_week: z.array(z.number()),
   })
   .meta({ $id: "create-habit-schedule" });
-
-export const HabitScheduleSchema = CreateHabitScheduleSchema.extend({
-  id: z.string(),
-  habit_id: z.string(),
-  created_at: z.string(),
-  user_id: z.string(),
-}).meta({ $id: "habit-schedule" });
 
 // Habit With Schedule
 export const CreateHabitWithScheduleSchema = z

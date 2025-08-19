@@ -4,12 +4,7 @@ import fp from 'fastify-plugin';
 import { createDatabaseError } from '@/utils/app-errors';
 import { createService, ServiceContext } from '@/utils/createService';
 
-import type {
-  CreateHabit,
-  CreateHabitSchedule,
-  CreateHabitWithSchedule,
-  Habit,
-} from '@repo/schemas/types/habit';
+import type { CreateHabitWithSchedule, Habit } from '@repo/schemas/types/habit';
 
 declare module 'fastify' {
   export interface FastifyInstance {
@@ -35,34 +30,16 @@ function createRepository(_app: FastifyInstance) {
     create: createService(
       async ({ supabase, body }: ServiceContext & { body: CreateHabitWithSchedule }) => {
         const { data, error, status } = await supabase.rpc('create_habit_with_schedule', {
-          p_habit: body.habit,
-          p_schedule: body.habit_schedule,
+          p_days_of_week: body.habit_schedule.days_of_week,
+          p_description: body.habit.description,
+          p_title: body.habit.title,
         });
 
-        // const habitData = await supabase
-        //   .from('habits')
-        //   .insert<CreateHabit>(body.habit)
-        //   .select()
-        //   .single();
+        if (error) {
+          throw createDatabaseError(error, status);
+        }
 
-        // if (habitData.error) {
-        //   throw createDatabaseError(habitData.error, habitData.status);
-        // }
-
-        // const habitSchedule = await supabase
-        //   .from('habit_schedules')
-        //   .insert<CreateHabitSchedule & { habit_id: string }>({
-        //     ...body.habit_schedule,
-        //     habit_id: habitData.data.id,
-        //   })
-        //   .select()
-        //   .single();
-
-        // if (habitSchedule.error) {
-        //   throw createDatabaseError(habitSchedule.error, habitSchedule.status);
-        // }
-
-        // return data;
+        return data;
       },
     ),
 

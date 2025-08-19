@@ -17,4 +17,4 @@ export const createSupabaseClient = (accessToken: string) => {
   return supabase;
 };
 
-export type TCreateSupabaseClient = ReturnType<typeof createSupabaseClient>;
+export type CreateSupabaseClient = ReturnType<typeof createSupabaseClient>;

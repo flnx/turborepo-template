@@ -2,9 +2,14 @@ import { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
 
 import { createDatabaseError } from '@/utils/app-errors';
-import { createService } from '@/utils/createService';
+import { createService, ServiceContext } from '@/utils/createService';
 
-import type { CreateHabit, Habit } from '@repo/schemas/types/habit';
+import type {
+  CreateHabit,
+  CreateHabitSchedule,
+  CreateHabitWithSchedule,
+  Habit,
+} from '@repo/schemas/types/habit';
 
 declare module 'fastify' {
   export interface FastifyInstance {
@@ -15,7 +20,7 @@ declare module 'fastify' {
 function createRepository(_app: FastifyInstance) {
   return {
     getAll: createService(async ({ supabase, user }) => {
-      const { data, error, status, statusText } = await supabase
+      const { data, error, status } = await supabase
         .from('habits')
         .select('*')
         .eq('user_id', user.id);
@@ -27,19 +32,34 @@ function createRepository(_app: FastifyInstance) {
       return data as Habit[];
     }),
 
-    // async create(req: FastifyRequest<{ Body: CreateHabit }>) {
-    //   const { data, error } = await req.supabase
-    //     .from('habits')
-    //     .insert<CreateHabit>(req.body)
-    //     .select()
-    //     .single();
+    create: createService(
+      async ({ supabase, body }: ServiceContext & { body: CreateHabitWithSchedule }) => {
+        const habitData = await supabase
+          .from('habits')
+          .insert<CreateHabit>(body.habit)
+          .select()
+          .single();
 
-    //   if (error) {
-    //     throw createDatabaseError(error);
-    //   }
+        if (habitData.error) {
+          throw createDatabaseError(habitData.error, habitData.status);
+        }
 
-    //   return data;
-    // },
+        const habitSchedule = await supabase
+          .from('habit_schedules')
+          .insert<CreateHabitSchedule & { habit_id: string }>({
+            days_of_week: body.habit_schedule.days_of_week,
+            habit_id: habitData.data.id,
+          })
+          .select()
+          .single();
+
+        if (habitSchedule.error) {
+          throw createDatabaseError(habitSchedule.error, habitSchedule.status);
+        }
+
+        // return data;
+      },
+    ),
 
     // Example of how to add more methods
     // async getById(req: FastifyRequest<{ Params: { id: string } }>) {

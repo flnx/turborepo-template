@@ -68,7 +68,7 @@ export default fp(
 import { createService } from '@/utils/createService';
 
 import type { CreateHabit } from '@repo/schemas/types/habit';
-import type { TServiceContext } from '@/utils/createService';
+import type { ServiceContext } from '@/utils/createService';
 
 export const getHabits = createService(async ({ supabase, user }) => {
   const { data, error } = await supabase
@@ -83,7 +83,7 @@ export const getHabits = createService(async ({ supabase, user }) => {
   return data;
 });
 
-type CreateHabitParams = TServiceContext & {
+type CreateHabitParams = ServiceContext & {
   userData: CreateHabit;
 };
 

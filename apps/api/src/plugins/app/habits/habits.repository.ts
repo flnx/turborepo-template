@@ -34,28 +34,33 @@ function createRepository(_app: FastifyInstance) {
 
     create: createService(
       async ({ supabase, body }: ServiceContext & { body: CreateHabitWithSchedule }) => {
-        const habitData = await supabase
-          .from('habits')
-          .insert<CreateHabit>(body.habit)
-          .select()
-          .single();
+        const { data, error, status } = await supabase.rpc('create_habit_with_schedule', {
+          p_habit: body.habit,
+          p_schedule: body.habit_schedule,
+        });
 
-        if (habitData.error) {
-          throw createDatabaseError(habitData.error, habitData.status);
-        }
+        // const habitData = await supabase
+        //   .from('habits')
+        //   .insert<CreateHabit>(body.habit)
+        //   .select()
+        //   .single();
 
-        const habitSchedule = await supabase
-          .from('habit_schedules')
-          .insert<CreateHabitSchedule & { habit_id: string }>({
-            days_of_week: body.habit_schedule.days_of_week,
-            habit_id: habitData.data.id,
-          })
-          .select()
-          .single();
+        // if (habitData.error) {
+        //   throw createDatabaseError(habitData.error, habitData.status);
+        // }
 
-        if (habitSchedule.error) {
-          throw createDatabaseError(habitSchedule.error, habitSchedule.status);
-        }
+        // const habitSchedule = await supabase
+        //   .from('habit_schedules')
+        //   .insert<CreateHabitSchedule & { habit_id: string }>({
+        //     ...body.habit_schedule,
+        //     habit_id: habitData.data.id,
+        //   })
+        //   .select()
+        //   .single();
+
+        // if (habitSchedule.error) {
+        //   throw createDatabaseError(habitSchedule.error, habitSchedule.status);
+        // }
 
         // return data;
       },

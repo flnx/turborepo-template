@@ -1,5 +1,6 @@
 import { z } from "zod/v4";
 
+// Habit
 export const CreateHabitSchema = z
   .object({
     title: z.string().min(1, "Title is required"),
@@ -12,3 +13,25 @@ export const HabitSchema = CreateHabitSchema.extend({
   created_at: z.string(),
   user_id: z.string(),
 }).meta({ $id: "habit" });
+
+// Habit Schedule
+export const CreateHabitScheduleSchema = z
+  .object({
+    days_of_week: z.array(z.number()),
+  })
+  .meta({ $id: "create-habit-schedule" });
+
+export const HabitScheduleSchema = CreateHabitScheduleSchema.extend({
+  id: z.string(),
+  habit_id: z.string(),
+  created_at: z.string(),
+  user_id: z.string(),
+}).meta({ $id: "habit-schedule" });
+
+// Habit With Schedule
+export const CreateHabitWithScheduleSchema = z
+  .object({
+    habit: CreateHabitSchema,
+    habit_schedule: CreateHabitScheduleSchema,
+  })
+  .meta({ $id: "create-habit-with-schedule" });

@@ -12,16 +12,18 @@ import {
 } from '@heroui/dropdown';
 import { cn } from '@heroui/theme';
 
-export type Habit = {
-  id: string;
-  user_id: string;
-  title: string;
-  streak: number;
-  status: 'Active' | 'In Progress' | 'Completed';
-  isCompleted: boolean;
-  repeat: 1 | 2 | 3 | 4 | 5 | 6 | 7;
-  description?: string;
-};
+import type { Habit } from '@repo/schemas/types/habit';
+
+// export type Habit = {
+//   id: string;
+//   user_id: string;
+//   title: string;
+//   streak: number;
+//   status: 'Active' | 'In Progress' | 'Completed';
+//   isCompleted: boolean;
+//   repeat: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+//   description?: string;
+// };
 
 export const HabitsList = ({ habits }: { habits: Habit[] }) => {
   return (
@@ -47,7 +49,7 @@ const Habit = ({ habit }: { habit: Habit }) => {
       />
       <div className="ml-2 flex w-full items-center justify-between gap-1">
         <span
-          className={cn('transition-colors-opacity text-sm font-semibold', {
+          className={cn('transition-colors-opacity', {
             'opacity-45': isSelected,
           })}
         >

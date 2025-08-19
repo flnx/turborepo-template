@@ -12,19 +12,14 @@ import { HabitsList } from '@/components/habits-list/habit-list';
 
 // import { StatsCard } from '@/components/stats-card/stats-card';
 
-import type { Habit } from '@/components/habits-list/habit-list';
-
 export const Route = createFileRoute('/dashboard/')({
   loader: async ({ context }) => {
     const queryClient = context.queryClient;
     queryClient.ensureQueryData(getHabitsQueryOptions());
   },
   errorComponent: ({ error }) => <div>{error.message}</div>,
-  notFoundComponent: () => <div>Not Found</div>,
   component: () => {
     const { data } = useSuspenseQuery(getHabitsQueryOptions());
-
-    console.log(data);
 
     return (
       <section>
@@ -59,7 +54,7 @@ export const Route = createFileRoute('/dashboard/')({
         {/* <CalendarModal /> */}
         <div className="h-full space-y-24">
           {/* <HorizontalCalendar /> */}
-          {/* <HabitsList habits={habits} /> */}
+          <HabitsList habits={data} />
         </div>
         {/* <StatsCard /> */}
       </section>

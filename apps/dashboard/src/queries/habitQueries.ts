@@ -1,7 +1,7 @@
-import { getHabits } from '@/api/habits';
-import { queryOptions } from '@tanstack/react-query';
+import { createHabit, getHabits } from '@/api/habits';
+import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 
-export const habitKeys = {
+const habitKeys = {
   all: ['habits'] as const,
   lists: () => [...habitKeys.all, 'list'] as const,
   list: (filters: string) => [...habitKeys.lists(), { filters }] as const,
@@ -14,3 +14,14 @@ export const getHabitsQueryOptions = () =>
     queryKey: habitKeys.lists(),
     queryFn: getHabits,
   });
+
+export const useCreateHabit = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createHabit,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: habitKeys.lists() });
+    },
+  });
+};

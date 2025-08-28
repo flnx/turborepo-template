@@ -1,4 +1,4 @@
-import { getHabitsQueryOptions } from '@/queries/getHabitsQueryOptions';
+import { getHabitsQueryOptions } from '@/queries/habitQueries';
 import { Chip } from '@heroui/chip';
 import { Divider } from '@heroui/divider';
 import { CircularProgress } from '@heroui/progress';

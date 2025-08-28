@@ -39,7 +39,9 @@ function createRepository(_app: FastifyInstance) {
           throw createDatabaseError(error, status);
         }
 
-        return data;
+        return {
+          id: data,
+        };
       },
     ),
 

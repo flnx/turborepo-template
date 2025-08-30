@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 
+import { useDeleteHabit } from '@/queries/habitQueries';
 import { Button } from '@heroui/button';
 import { Checkbox } from '@heroui/checkbox';
 import { Chip } from '@heroui/chip';
@@ -10,20 +11,18 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@heroui/dropdown';
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from '@heroui/modal';
 import { cn } from '@heroui/theme';
 
-import type { Habit } from '@repo/schemas/types/habit';
+import { FormError } from '../form-error';
 
-// export type Habit = {
-//   id: string;
-//   user_id: string;
-//   title: string;
-//   streak: number;
-//   status: 'Active' | 'In Progress' | 'Completed';
-//   isCompleted: boolean;
-//   repeat: 1 | 2 | 3 | 4 | 5 | 6 | 7;
-//   description?: string;
-// };
+import type { Habit } from '@repo/schemas/types/habit';
 
 export const HabitsList = ({ habits }: { habits: Habit[] }) => {
   return (
@@ -37,6 +36,7 @@ export const HabitsList = ({ habits }: { habits: Habit[] }) => {
 
 const Habit = ({ habit }: { habit: Habit }) => {
   const [isSelected, setIsSelected] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="hover:bg-default-50/15 flex w-full rounded-md p-2">
@@ -70,12 +70,7 @@ const Habit = ({ habit }: { habit: Habit }) => {
           )}
         </div>
       </div>
-      <Dropdown
-        classNames={{
-          content: 'min-w-[120px]',
-        }}
-        placement="bottom-end"
-      >
+      <Dropdown classNames={{ content: 'min-w-[120px]' }} placement="bottom-end">
         <DropdownTrigger>
           <Button
             isIconOnly
@@ -93,9 +88,67 @@ const Habit = ({ habit }: { habit: Habit }) => {
           variant="flat"
         >
           <DropdownItem key="view-details">Edit</DropdownItem>
-          <DropdownItem key="export-data">Delete</DropdownItem>
+          <DropdownItem key="export-data" onPress={() => setIsModalOpen(true)}>
+            Delete
+          </DropdownItem>
         </DropdownMenu>
       </Dropdown>
+      <DeleteModal
+        habit={habit}
+        isOpen={isModalOpen}
+        onOpenChange={(isOpen: boolean) => setIsModalOpen(isOpen)}
+      />
     </div>
+  );
+};
+
+const DeleteModal = ({
+  habit,
+  isOpen,
+  onOpenChange,
+}: {
+  habit: Habit;
+  isOpen: boolean;
+  onOpenChange: (isOpen: boolean) => void;
+}) => {
+  const { mutate, isPending, error } = useDeleteHabit();
+
+  const handleDelete = async () => {
+    mutate(habit.id, {
+      onSuccess: () => {
+        onOpenChange(false);
+      },
+    });
+  };
+  return (
+    <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
+      <ModalContent>
+        {(onClose: () => void) => (
+          <>
+            <ModalHeader className="flex flex-col gap-1">Add New Habit</ModalHeader>
+            <ModalBody>
+              <p>Are you sure you want to delete this habit?</p>
+            </ModalBody>
+            <ModalFooter>
+              <div className="w-full">
+                <div className="flex justify-end gap-2">
+                  <Button color="danger" variant="flat" onPress={onClose}>
+                    Cancel
+                  </Button>
+                  <Button
+                    color="primary"
+                    isLoading={isPending}
+                    onPress={handleDelete}
+                  >
+                    Delete Habit
+                  </Button>
+                </div>
+                <FormError error={error?.message} className="mt-6" />
+              </div>
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
   );
 };

@@ -17,15 +17,17 @@ async function requester<T>(
     const session = await getAuthToken();
     if (!session) throw new Error('No token found');
 
+    const hasBody = data && method !== 'GET';
+
     const response = await fetch(`${baseUrl}/${endpoint}`, {
       ...options,
       method,
       headers: {
-        ...(method !== 'GET' && { 'Content-Type': 'application/json' }),
+        ...(hasBody && { 'Content-Type': 'application/json' }),
         Authorization: `Bearer ${session.token}`,
         ...options?.headers,
-        ...(data && method !== 'GET' && { body: JSON.stringify(data) }),
       },
+      ...(data && method !== 'GET' && { body: JSON.stringify(data) }),
     });
 
     if (!response.ok) {
@@ -55,7 +57,7 @@ export const api = {
 
   post: <T>(
     endpoint: string,
-    data?: Record<string, unknown>,
+    data: Record<string, unknown>,
     options?: RequestInit,
   ) => {
     return requester<T>(endpoint, 'POST', data, options);

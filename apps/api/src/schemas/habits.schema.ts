@@ -27,3 +27,13 @@ export const habitsSchema = z.toJSONSchema(z.array(HabitSchema), {
   target: 'draft-7',
   unrepresentable: 'any',
 });
+
+export const deleteHabitJSONSchema = z.toJSONSchema(z.object({ id: z.uuidv4() }), {
+  target: 'draft-7',
+  unrepresentable: 'any',
+});
+
+export const deleteHabitResponseJSONSchema = z.toJSONSchema(z.null(), {
+  target: 'draft-7',
+  unrepresentable: 'any',
+});

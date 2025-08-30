@@ -13,11 +13,12 @@ import {
   useDisclosure,
 } from '@heroui/modal';
 
+import { FormError } from '../form-error';
 import { DaysOfWeek } from './days-of-week';
 
 export const HabitForm = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { mutate } = useCreateHabit();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const { mutate, isPending, error } = useCreateHabit();
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,21 +29,23 @@ export const HabitForm = () => {
     const daysOfWeek = formData
       .getAll('daysOfWeek')
       .map((day) => Number(day))
-      .filter((day) => typeof day === 'number' && day > 0 && day < 8);
-
-    if (!title || typeof description !== 'string') {
-      return;
-    }
+      .filter((day) => Number.isInteger(day) && day >= 1 && day <= 7);
 
     const data = {
       habit: {
-        title: title.toString(),
-        description: description?.toString(),
+        title: title?.toString() || '',
+        description: description?.toString().trim() || '',
       },
-      habit_schedule: daysOfWeek,
+      habit_schedule: {
+        days_of_week: daysOfWeek,
+      },
     };
 
-    console.log(data);
+    mutate(data, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
   };
 
   return (
@@ -72,6 +75,7 @@ export const HabitForm = () => {
                   <div className="space-y-1">
                     <Input
                       label="Name"
+                      isRequired
                       placeholder="e.g., Morning Meditation"
                       variant="bordered"
                       type="text"
@@ -91,17 +95,23 @@ export const HabitForm = () => {
                 </Form>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  color="primary"
-                  type="submit"
-                  // onPress={onClose}
-                  form="habit-form"
-                >
-                  Add Habit
-                </Button>
+                <div className="w-full">
+                  <div className="flex justify-end gap-2">
+                    <Button color="danger" variant="flat" onPress={onClose}>
+                      Cancel
+                    </Button>
+                    <Button
+                      color="primary"
+                      type="submit"
+                      isLoading={isPending}
+                      // onPress={onClose}
+                      form="habit-form"
+                    >
+                      Add Habit
+                    </Button>
+                  </div>
+                  <FormError error={error?.message} className="mt-6" />
+                </div>
               </ModalFooter>
             </>
           )}

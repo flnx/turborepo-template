@@ -29,10 +29,12 @@ function createRepository(_app: FastifyInstance) {
 
     create: createService(
       async ({ supabase, body }: ServiceContext & { body: CreateHabitWithSchedule }) => {
+        const { habit, habit_schedule } = body;
+
         const { data, error, status } = await supabase.rpc('create_habit_with_schedule', {
-          p_days_of_week: body.habit_schedule.days_of_week,
-          p_description: body.habit.description,
-          p_title: body.habit.title,
+          p_days_of_week: habit_schedule.days_of_week,
+          p_description: habit.description,
+          p_title: habit.title,
         });
 
         if (error) {
@@ -45,55 +47,20 @@ function createRepository(_app: FastifyInstance) {
       },
     ),
 
-    // Example of how to add more methods
-    // async getById(req: FastifyRequest<{ Params: { id: string } }>) {
-    //   const { data, error } = await req.supabase
-    //     .from('habits')
-    //     .select('*')
-    //     .eq('id', req.params.id)
-    //     .eq('user_id', req.user.id)
-    //     .single();
+    delete: createService(
+      async ({ supabase, body }: ServiceContext & { body: { id: string } }) => {
+        const { error, status } = await supabase
+          .from('habits')
+          .delete()
+          .eq('id', body.id);
 
-    //   if (error) {
-    //     if (error.code === 'PGRST116') {
-    //       // Not found error
-    //       throw createNotFoundError('Habit not found');
-    //     }
-    //     throw createDatabaseError(error);
-    //   }
+        if (error) {
+          throw createDatabaseError(error, status);
+        }
 
-    //   return data;
-    // },
-
-    //   async update(req: FastifyRequest<{ Params: { id: string }; Body: Partial<CreateHabit> }>) {
-    //     const { data, error } = await req.supabase
-    //       .from('habits')
-    //       .update(req.body)
-    //       .eq('id', req.params.id)
-    //       .eq('user_id', req.user.id)
-    //       .select()
-    //       .single();
-
-    //     if (error) {
-    //       throw createDatabaseError(error);
-    //     }
-
-    //     return data;
-    //   },
-
-    //   async delete(req: FastifyRequest<{ Params: { id: string } }>) {
-    //     const { error } = await req.supabase
-    //       .from('habits')
-    //       .delete()
-    //       .eq('id', req.params.id)
-    //       .eq('user_id', req.user.id);
-
-    //     if (error) {
-    //       throw createDatabaseError(error);
-    //     }
-
-    //     return { success: true };
-    //   }
+        return { success: true };
+      },
+    ),
   };
 }
 
@@ -102,6 +69,6 @@ export default fp(
     fastify.decorate('habitsRepository', createRepository(fastify));
   },
   {
-    name: 'habits-repository', // Fixed the name here
+    name: 'habits-repository',
   },
 );

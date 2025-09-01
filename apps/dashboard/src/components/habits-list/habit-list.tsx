@@ -20,6 +20,8 @@ import {
 } from '@heroui/modal';
 import { cn } from '@heroui/theme';
 
+import { getLocalDate } from '@/utils/getLocalDate';
+
 import { FormError } from '../form-error';
 
 import type { Habit } from '@repo/schemas/types/habit';
@@ -35,25 +37,26 @@ export const HabitsList = ({ habits }: { habits: Habit[] }) => {
 };
 
 const Habit = ({ habit }: { habit: Habit }) => {
-  const [isSelected, setIsSelected] = useState(false);
+  const { title, is_completed } = habit;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // const { mutate, isPending, error } = useCompleteHabit();
+  const { mutate, isPending, error } = useCompleteHabit();
 
   const handleComplete = async (isSelected: boolean) => {
-    setIsSelected(isSelected);
-
     if (isSelected) {
+      mutate({ id: habit.id, date: getLocalDate() });
+      console.log('complete habit');
+    } else {
+      console.log('uncomplete habit');
+      mutate({ id: habit.id, date: getLocalDate() });
     }
-
-    // mutate({ id: habit.id, date: new Date().toISOString() });
   };
 
   return (
     <div className="hover:bg-default-50/15 flex w-full rounded-md p-2">
       <Checkbox
-        aria-label={habit.title}
-        isSelected={isSelected}
+        aria-label={title}
+        isSelected={is_completed}
         radius="sm"
         // onValueChange={setIsSelected}
         onValueChange={(isSelected) => handleComplete(isSelected)}
@@ -62,16 +65,16 @@ const Habit = ({ habit }: { habit: Habit }) => {
       <div className="ml-2 flex w-full items-center justify-between gap-1">
         <span
           className={cn('transition-colors-opacity', {
-            'opacity-45': isSelected,
+            'opacity-45': is_completed,
           })}
         >
-          {habit.title}
+          {title}
         </span>
         {/* <small className="text-default-500 text-tiny">{habit?.description}</small> */}
         <div className="mr-4 flex w-52 items-center justify-between gap-8">
           <small className="text-default-500 text-tiny">10 days streak</small>
 
-          {isSelected ? (
+          {is_completed ? (
             <Chip color="success" className="text-tiny">
               Completed
             </Chip>

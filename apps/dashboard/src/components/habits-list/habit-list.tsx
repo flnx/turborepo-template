@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 
-import { useDeleteHabit } from '@/queries/habitQueries';
+import { useCompleteHabit, useDeleteHabit } from '@/queries/habitQueries';
 import { Button } from '@heroui/button';
 import { Checkbox } from '@heroui/checkbox';
 import { Chip } from '@heroui/chip';
@@ -38,13 +38,25 @@ const Habit = ({ habit }: { habit: Habit }) => {
   const [isSelected, setIsSelected] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // const { mutate, isPending, error } = useCompleteHabit();
+
+  const handleComplete = async (isSelected: boolean) => {
+    setIsSelected(isSelected);
+
+    if (isSelected) {
+    }
+
+    // mutate({ id: habit.id, date: new Date().toISOString() });
+  };
+
   return (
     <div className="hover:bg-default-50/15 flex w-full rounded-md p-2">
       <Checkbox
         aria-label={habit.title}
         isSelected={isSelected}
         radius="sm"
-        onValueChange={setIsSelected}
+        // onValueChange={setIsSelected}
+        onValueChange={(isSelected) => handleComplete(isSelected)}
         color="success"
       />
       <div className="ml-2 flex w-full items-center justify-between gap-1">

@@ -34,6 +34,10 @@ async function requester<T>(
       await handleErrorResponse(response);
     }
 
+    if (response.status === 204) {
+      return undefined as T;
+    }
+
     // Handle empty responses
     const contentType = response.headers.get('content-type');
 

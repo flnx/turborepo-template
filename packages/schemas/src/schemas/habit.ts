@@ -9,7 +9,7 @@ export const CreateHabitSchema = z
   .meta({ $id: "create-habit" });
 
 export const HabitSchema = CreateHabitSchema.extend({
-  id: z.string(),
+  id: z.uuidv4(),
   created_at: z.string(),
   user_id: z.string(),
 }).meta({ $id: "habit" });
@@ -28,3 +28,11 @@ export const CreateHabitWithScheduleSchema = z
     habit_schedule: CreateHabitScheduleSchema,
   })
   .meta({ $id: "create-habit-with-schedule" });
+
+// Habit completion
+export const CompleteHabitSchema = z
+  .object({
+    id: z.uuidv4(),
+    date: z.iso.date(),
+  })
+  .meta({ $id: "complete-habit" });

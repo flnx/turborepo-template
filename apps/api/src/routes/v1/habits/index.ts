@@ -1,13 +1,15 @@
 import { FastifyInstance } from 'fastify';
 
 import {
+  completeHabitJSONSchema,
   createHabitWithScheduleJSONSchema,
-  deleteHabitJSONSchema,
-  deleteHabitResponseJSONSchema,
+  dateQueryParamsJSONSchema,
   habitsSchema,
+  noContentResponseSchema,
+  uuidParamsJSONSchema,
 } from '@/schemas/habits.schema';
 
-import type { CreateHabitWithSchedule } from '@repo/schemas/types/habit';
+import type { CompleteHabit, CreateHabitWithSchedule } from '@repo/schemas/types/habit';
 
 type CreateHabitRoute = {
   Body: CreateHabitWithSchedule;
@@ -17,16 +19,26 @@ type DeleteHabitRoute = {
   Params: { id: string };
 };
 
-export default async function habitRoutes(app: FastifyInstance) {
-  const { getAll, create, delete: deleteHabit } = app.habitsRepository;
+type GetHabitsRoute = {
+  Querystring: { date: string };
+};
 
-  app.get('/', {
+type CompleteHabitRoute = DeleteHabitRoute & {
+  Body: CompleteHabit;
+};
+
+export default async function habitRoutes(app: FastifyInstance) {
+  const { getAll, create, delete: deleteHabit, complete } = app.habitsRepository;
+
+  app.get<GetHabitsRoute>('/', {
     handler: async (req) =>
       getAll({
         supabase: req.supabase,
         user: req.user,
+        body: req.query,
       }),
     schema: {
+      querystring: dateQueryParamsJSONSchema,
       response: {
         200: habitsSchema,
       },
@@ -57,9 +69,28 @@ export default async function habitRoutes(app: FastifyInstance) {
       reply.code(204).send();
     },
     schema: {
-      params: deleteHabitJSONSchema,
+      params: uuidParamsJSONSchema,
       response: {
-        204: deleteHabitResponseJSONSchema,
+        204: noContentResponseSchema,
+      },
+    },
+  });
+
+  app.post<CompleteHabitRoute>('/:id/complete', {
+    handler: async (req, reply) => {
+      await complete({
+        supabase: req.supabase,
+        user: req.user,
+        body: req.body,
+      });
+
+      reply.code(201).send();
+    },
+    schema: {
+      body: completeHabitJSONSchema,
+      params: uuidParamsJSONSchema,
+      response: {
+        204: noContentResponseSchema,
       },
     },
   });

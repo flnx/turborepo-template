@@ -1,4 +1,5 @@
 import {
+  CompleteHabitSchema,
   CreateHabitSchema,
   CreateHabitWithScheduleSchema,
   HabitSchema,
@@ -28,12 +29,22 @@ export const habitsSchema = z.toJSONSchema(z.array(HabitSchema), {
   unrepresentable: 'any',
 });
 
-export const deleteHabitJSONSchema = z.toJSONSchema(z.object({ id: z.uuidv4() }), {
+export const uuidParamsJSONSchema = z.toJSONSchema(z.object({ id: z.uuidv4() }), {
   target: 'draft-7',
   unrepresentable: 'any',
 });
 
-export const deleteHabitResponseJSONSchema = z.toJSONSchema(z.null(), {
+export const noContentResponseSchema = z.toJSONSchema(z.null(), {
+  target: 'draft-7',
+  unrepresentable: 'any',
+});
+
+export const completeHabitJSONSchema = z.toJSONSchema(CompleteHabitSchema, {
+  target: 'draft-7',
+  unrepresentable: 'any',
+});
+
+export const dateQueryParamsJSONSchema = z.toJSONSchema(z.object({ date: z.date() }), {
   target: 'draft-7',
   unrepresentable: 'any',
 });

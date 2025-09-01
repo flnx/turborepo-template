@@ -14,18 +14,19 @@ declare module 'fastify' {
 
 function createRepository(_app: FastifyInstance) {
   return {
-    getAll: createService(async ({ supabase, user }) => {
-      const { data, error, status } = await supabase
-        .from('habits')
-        .select('*')
-        .eq('user_id', user.id);
+    getAll: createService(
+      async ({ supabase, user, body }: ServiceContext & { body: { date: string } }) => {
+        const { data, error, status } = await supabase.rpc('get_habits_for_day', {
+          p_date: body.date,
+        });
 
-      if (error) {
-        throw createDatabaseError(error, status);
-      }
+        if (error) {
+          throw createDatabaseError(error, status);
+        }
 
-      return data as Habit[];
-    }),
+        return data || [];
+      },
+    ),
 
     create: createService(
       async ({ supabase, body }: ServiceContext & { body: CreateHabitWithSchedule }) => {
@@ -61,6 +62,23 @@ function createRepository(_app: FastifyInstance) {
         return { success: true };
       },
     ),
+    complete: createService(
+      async ({
+        supabase,
+        body,
+      }: ServiceContext & { body: { id: string; date: string } }) => {
+        const { error, status } = await supabase.from('habit_completions').insert({
+          habit_id: body.id,
+          completed_local_date: body.date,
+        });
+
+        if (error) {
+          throw createDatabaseError(error, status);
+        }
+
+        return { success: true };
+      },
+    ),
   };
 }
 
@@ -72,3 +90,45 @@ export default fp(
     name: 'habits-repository',
   },
 );
+
+// -- In your Supabase SQL editor
+// CREATE OR REPLACE FUNCTION get_habits_for_day(
+//   p_user_id UUID,
+//   p_date DATE
+// )
+// RETURNS TABLE (
+//   id UUID,
+//   title TEXT,
+//   description TEXT,
+//   created_at TIMESTAMPTZ,
+//   user_id UUID,
+//   is_completed BOOLEAN
+// )
+// LANGUAGE plpgsql
+// AS $$
+// DECLARE
+//   day_of_week INT;
+// BEGIN
+//   -- Get day of week (1-7, Mon-Sun)
+//   day_of_week := EXTRACT(ISODOW FROM p_date);
+
+//   RETURN QUERY
+//   SELECT
+//     h.id,
+//     h.title,
+//     h.description,
+//     h.created_at,
+//     h.user_id,
+//     EXISTS(
+//       SELECT 1
+//       FROM habit_completions hc
+//       WHERE hc.habit_id = h.id
+//       AND hc.completed_local_date = p_date
+//     ) as is_completed
+//   FROM habits h
+//   INNER JOIN habit_schedules hs ON h.id = hs.habit_id
+//   WHERE h.user_id = p_user_id
+//     AND h.is_archived = false
+//     AND day_of_week = ANY(hs.days_of_week);
+// END;
+// $$;

@@ -7,6 +7,7 @@ This is a starter template for building a type-safe, Fastify-based API with Supa
 The project uses [fastify-autoload](https://github.com/fastify/fastify-autoload) to automatically register all plugins and routes from the `/plugins` and `/routes` directories. This keeps the codebase modular and easy to extend.
 
 **To add a new plugin or route:**
+
 - Place your plugin in `/plugins/`.
 - Place your route in `/routes/`.
 
@@ -32,6 +33,7 @@ The authentication logic is implemented in [`plugins/app/auth.ts`](plugins/app/a
 This setup ensures each request has its own Supabase client with the correct user context and permissions.
 
 **Usage:**
+
 - Configure your Supabase credentials via environment variables.
 - Use the provided authentication hooks/plugin in your route handlers.
 

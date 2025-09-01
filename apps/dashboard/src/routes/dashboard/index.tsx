@@ -5,6 +5,8 @@ import { CircularProgress } from '@heroui/progress';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
+import { getLocalDate } from '@/utils/getLocalDate';
+
 // import { CalendarModal } from '@/components/calendar/calendar-modal';
 // import { HorizontalCalendar } from '@/components/calendar/horizontal-calendar';
 import { HabitForm } from '@/components/habit-form/habit-form';
@@ -15,11 +17,11 @@ import { HabitsList } from '@/components/habits-list/habit-list';
 export const Route = createFileRoute('/dashboard/')({
   loader: async ({ context }) => {
     const queryClient = context.queryClient;
-    queryClient.ensureQueryData(getHabitsQueryOptions());
+    queryClient.ensureQueryData(getHabitsQueryOptions(getLocalDate()));
   },
   errorComponent: ({ error }) => <div>{error.message}</div>,
   component: () => {
-    const { data } = useSuspenseQuery(getHabitsQueryOptions());
+    const { data } = useSuspenseQuery(getHabitsQueryOptions(getLocalDate()));
 
     return (
       <section>

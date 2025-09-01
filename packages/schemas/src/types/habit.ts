@@ -3,8 +3,10 @@ import {
   CreateHabitSchema,
   HabitSchema,
   CreateHabitWithScheduleSchema,
+  CompleteHabitSchema,
 } from "../schemas/habit";
 
 export type CreateHabit = z.infer<typeof CreateHabitSchema>;
 export type Habit = z.infer<typeof HabitSchema>;
 export type CreateHabitWithSchedule = z.infer<typeof CreateHabitWithScheduleSchema>;
+export type CompleteHabit = z.infer<typeof CompleteHabitSchema>;

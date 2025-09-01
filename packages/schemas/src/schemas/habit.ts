@@ -12,6 +12,8 @@ export const HabitSchema = CreateHabitSchema.extend({
   id: z.uuidv4(),
   created_at: z.string(),
   user_id: z.string(),
+  is_completed: z.boolean(),
+  days_of_week: z.array(z.number()),
 }).meta({ $id: "habit" });
 
 // Habit Schedule

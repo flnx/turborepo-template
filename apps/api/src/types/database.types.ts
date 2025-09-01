@@ -151,6 +151,7 @@ export type Database = {
         Args: { p_date: string }
         Returns: {
           created_at: string
+          days_of_week: number[]
           description: string
           id: string
           is_completed: boolean

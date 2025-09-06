@@ -1,9 +1,6 @@
 import { SupabaseJWTPayload } from '@/types/auth';
 
-import type { CreateSupabaseClient } from './createSupabaseClient';
-
 export type ServiceContext = {
-  supabase: CreateSupabaseClient;
   user: SupabaseJWTPayload;
 };
 

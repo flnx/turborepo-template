@@ -14,6 +14,8 @@ export const HabitSchema = CreateHabitSchema.extend({
   user_id: z.string(),
   is_completed: z.boolean(),
   days_of_week: z.array(z.number()),
+  current_streak: z.number(),
+  longest_streak: z.number(),
 }).meta({ $id: "habit" });
 
 // Habit Schedule

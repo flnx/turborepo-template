@@ -4,15 +4,21 @@ import config from '@/config/options';
 
 import type { Database } from '@/types/database.types';
 
-export const createSupabaseClient = (accessToken: string) => {
-  const supabase = createClient<Database>(config.supabase_url, config.supabase_anon_key, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-      detectSessionInUrl: false,
+export const createSupabaseClient = () => {
+  const supabase = createClient<Database, 'api'>(
+    config.supabase_url,
+    config.supabase_service_key,
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+        detectSessionInUrl: false,
+      },
+      db: {
+        schema: 'api',
+      },
     },
-    global: accessToken ? { headers: { Authorization: accessToken } } : {},
-  });
+  );
 
   return supabase;
 };

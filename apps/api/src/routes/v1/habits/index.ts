@@ -19,21 +19,21 @@ type DeleteHabitRoute = {
   Params: { id: string };
 };
 
-type GetHabitsRoute = {
+type GetAllForTodayRoute = {
   Querystring: { date: string };
 };
 
-type CompleteHabitRoute = DeleteHabitRoute & {
+type CompleteHabitRoute = {
+  Params: { id: string };
   Body: CompleteHabit;
 };
 
 export default async function habitRoutes(app: FastifyInstance) {
-  const { getAll, create, delete: deleteHabit, complete } = app.habitsRepository;
+  const { getAllForToday, create, remove, complete } = app.habitsRepository;
 
-  app.get<GetHabitsRoute>('/', {
+  app.get<GetAllForTodayRoute>('/', {
     handler: async (req) =>
-      getAll({
-        supabase: req.supabase,
+      getAllForToday({
         user: req.user,
         body: req.query,
       }),
@@ -48,7 +48,6 @@ export default async function habitRoutes(app: FastifyInstance) {
   app.post<CreateHabitRoute>('/', {
     handler: async (req, _reply) =>
       create({
-        supabase: req.supabase,
         user: req.user,
         body: req.body,
       }),
@@ -60,8 +59,7 @@ export default async function habitRoutes(app: FastifyInstance) {
 
   app.delete<DeleteHabitRoute>('/:id', {
     handler: async (req, reply) => {
-      await deleteHabit({
-        supabase: req.supabase,
+      await remove({
         user: req.user,
         body: { id: req.params.id },
       });
@@ -79,7 +77,6 @@ export default async function habitRoutes(app: FastifyInstance) {
   app.post<CompleteHabitRoute>('/:id/complete', {
     handler: async (req, reply) => {
       await complete({
-        supabase: req.supabase,
         user: req.user,
         body: req.body,
       });

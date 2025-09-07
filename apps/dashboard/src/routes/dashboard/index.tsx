@@ -45,8 +45,16 @@ export const Route = createFileRoute('/dashboard/')({
         <div className="flex items-center justify-between px-2">
           <section className="relative flex items-center gap-2">
             <h2 className="text-xl font-bold">Today</h2>
-            <Chip size="sm" variant="dot" className="mt-0.5" color="success">
-              5
+            <Chip
+              size="sm"
+              variant="dot"
+              className="mt-0.5"
+              color="success"
+              classNames={{
+                content: 'ml-0.5',
+              }}
+            >
+              {data.length}
             </Chip>
           </section>
           <time dateTime="12-05-12" className="text-tiny text-default-800">

@@ -19,6 +19,7 @@ import {
   ModalHeader,
 } from '@heroui/modal';
 import { cn } from '@heroui/theme';
+import { addToast } from '@heroui/toast';
 
 import { getLocalDate } from '@/utils/getLocalDate';
 
@@ -40,16 +41,26 @@ const Habit = ({ habit }: { habit: Habit }) => {
   const { title, is_completed } = habit;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { mutate, isPending, error } = useCompleteHabit();
+  const { mutate, isPending } = useCompleteHabit();
 
-  const handleComplete = async (isSelected: boolean) => {
-    if (isSelected) {
-      mutate({ id: habit.id, date: getLocalDate() });
-      console.log('complete habit');
-    } else {
-      console.log('uncomplete habit');
-      mutate({ id: habit.id, date: getLocalDate() });
-    }
+  const handleComplete = async (isCompleted: boolean) => {
+    if (isPending) return;
+    mutate(
+      { id: habit.id, date: getLocalDate(), isCompleted },
+      {
+        onError: (_error) => {
+          addToast({
+            title: 'Error',
+            description: 'Something went wrong',
+            color: 'danger',
+            variant: 'bordered',
+            classNames: {
+              base: 'max-w-[365px]',
+            },
+          });
+        },
+      },
+    );
   };
 
   return (
@@ -58,8 +69,7 @@ const Habit = ({ habit }: { habit: Habit }) => {
         aria-label={title}
         isSelected={is_completed}
         radius="sm"
-        // onValueChange={setIsSelected}
-        onValueChange={(isSelected) => handleComplete(isSelected)}
+        onValueChange={(bool) => handleComplete(bool)}
         color="success"
       />
       <div className="ml-2 flex w-full items-center justify-between gap-1">

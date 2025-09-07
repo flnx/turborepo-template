@@ -1,5 +1,13 @@
-import { completeHabit, createHabit, deleteHabit, getHabits } from '@/api/habits';
+import {
+  completeHabit,
+  createHabit,
+  deleteHabit,
+  getHabits,
+  uncompleteHabit,
+} from '@/api/habits';
 import { queryOptions, useMutation, useQueryClient } from '@tanstack/react-query';
+
+import type { CompleteHabit, Habit } from '@repo/schemas/types/habit';
 
 const habitKeys = {
   all: ['habits'] as const,
@@ -41,20 +49,40 @@ export const useCompleteHabit = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: completeHabit,
+    mutationFn: (data: CompleteHabit & { isCompleted: boolean }) => {
+      if (data.isCompleted) {
+        return completeHabit({ id: data.id, date: data.date });
+      }
+
+      return uncompleteHabit({ id: data.id, date: data.date });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: habitKeys.all });
     },
-    // onSettled: () => {
-    //   // Mutate cache to avoid invalidation
-    //   queryClient.setQueryData(habitKeys.all, (old: Habit[]) => {
-    //     return old.map((habit) => {
-    //       if (habit.id === id) {
-    //         return { ...habit, isCompleted: true };
-    //       }
-    //       return habit;
-    //     });
-    //   });
-    // },
+
+    onMutate: (data) => {
+      const { id, isCompleted, date } = data;
+
+      const prevData = queryClient.getQueryData<Habit[]>(habitKeys.list(date)) || [];
+
+      const newData = prevData.map((habit) => {
+        if (habit.id === id) {
+          return { ...habit, is_completed: isCompleted };
+        }
+        return habit;
+      });
+
+      queryClient.setQueryData<Habit[]>(habitKeys.list(date), newData);
+
+      return {
+        prevData,
+      };
+    },
+
+    onError: (_err, data, context) => {
+      const { date } = data;
+
+      queryClient.setQueryData<Habit[]>(habitKeys.list(date), context?.prevData);
+    },
   });
 };

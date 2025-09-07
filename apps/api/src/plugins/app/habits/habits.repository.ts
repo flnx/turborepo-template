@@ -4,7 +4,11 @@ import fp from 'fastify-plugin';
 import { createDatabaseError } from '@/utils/app-errors';
 import { createService, ServiceContext } from '@/utils/createService';
 
-import type { CreateHabitWithSchedule, Habit } from '@repo/schemas/types/habit';
+import type {
+  CompleteHabit,
+  CreateHabitWithSchedule,
+  Habit,
+} from '@repo/schemas/types/habit';
 
 declare module 'fastify' {
   export interface FastifyInstance {
@@ -25,7 +29,11 @@ type Remove = ServiceContext & {
 };
 
 type Complete = ServiceContext & {
-  body: { id: string; date: string };
+  body: CompleteHabit;
+};
+
+type Uncomplete = ServiceContext & {
+  body: Pick<CompleteHabit, 'id' | 'date'>;
 };
 
 function createRepository(app: FastifyInstance) {
@@ -86,6 +94,21 @@ function createRepository(app: FastifyInstance) {
         completed_local_date: body.date,
         user_id: user.id,
       });
+
+      if (error) {
+        throw createDatabaseError(error, status);
+      }
+
+      return { success: true };
+    }),
+
+    uncomplete: createService(async ({ body, user }: Uncomplete) => {
+      const { error, status } = await supabase
+        .from('habit_completions')
+        .delete()
+        .eq('habit_id', body.id)
+        .eq('completed_local_date', body.date)
+        .eq('user_id', user.id);
 
       if (error) {
         throw createDatabaseError(error, status);

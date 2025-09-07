@@ -28,8 +28,13 @@ type CompleteHabitRoute = {
   Body: CompleteHabit;
 };
 
+type UncompleteHabitRoute = {
+  Params: { id: string };
+  Querystring: { date: string };
+};
+
 export default async function habitRoutes(app: FastifyInstance) {
-  const { getAllForToday, create, remove, complete } = app.habitsRepository;
+  const { getAllForToday, create, remove, complete, uncomplete } = app.habitsRepository;
 
   app.get<GetAllForTodayRoute>('/', {
     handler: async (req) =>
@@ -86,6 +91,24 @@ export default async function habitRoutes(app: FastifyInstance) {
     schema: {
       body: completeHabitJSONSchema,
       params: uuidParamsJSONSchema,
+      response: {
+        204: noContentResponseSchema,
+      },
+    },
+  });
+
+  app.delete<UncompleteHabitRoute>('/:id/uncomplete', {
+    handler: async (req, reply) => {
+      await uncomplete({
+        user: req.user,
+        body: { id: req.params.id, date: req.query.date },
+      });
+
+      reply.code(204).send();
+    },
+    schema: {
+      params: uuidParamsJSONSchema,
+      querystring: dateQueryParamsJSONSchema,
       response: {
         204: noContentResponseSchema,
       },

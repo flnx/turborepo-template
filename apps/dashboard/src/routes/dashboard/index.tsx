@@ -1,3 +1,4 @@
+import { useDate } from '@/contexts/DateContext';
 import { getHabitsQueryOptions } from '@/queries/habitQueries';
 import { Chip } from '@heroui/chip';
 import { Divider } from '@heroui/divider';
@@ -5,7 +6,7 @@ import { CircularProgress } from '@heroui/progress';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { getLocalDate } from '@/utils/getLocalDate';
+import { getFormattedDate, getLocalDate } from '@/utils/getLocalDate';
 
 // import { CalendarModal } from '@/components/calendar/calendar-modal';
 // import { HorizontalCalendar } from '@/components/calendar/horizontal-calendar';
@@ -21,8 +22,9 @@ export const Route = createFileRoute('/dashboard/')({
   },
   errorComponent: ({ error }) => <div>{error.message}</div>,
   component: () => {
-    const { data } = useSuspenseQuery(getHabitsQueryOptions(getLocalDate()));
+    const { date } = useDate();
 
+    const { data } = useSuspenseQuery(getHabitsQueryOptions(getLocalDate()));
     return (
       <section>
         <div className="mb-14 flex justify-between">
@@ -48,7 +50,7 @@ export const Route = createFileRoute('/dashboard/')({
             </Chip>
           </section>
           <time dateTime="12-05-12" className="text-tiny text-default-800">
-            Thursday, 02 May 2020
+            {getFormattedDate(date)}
           </time>
         </div>
 

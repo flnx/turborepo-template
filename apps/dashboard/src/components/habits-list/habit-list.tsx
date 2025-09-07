@@ -44,6 +44,7 @@ const Habit = ({ habit }: { habit: Habit }) => {
   const { mutate, isPending } = useCompleteHabit();
 
   const handleComplete = async (isCompleted: boolean) => {
+    // fix
     if (isPending) return;
     mutate(
       { id: habit.id, date: date, isCompleted },

@@ -67,7 +67,13 @@ export const useCompleteHabit = () => {
 
       const newData = prevData.map((habit) => {
         if (habit.id === id) {
-          return { ...habit, is_completed: isCompleted };
+          return {
+            ...habit,
+            is_completed: isCompleted,
+            current_streak: isCompleted
+              ? habit.current_streak + 1
+              : habit.current_streak - 1,
+          };
         }
         return habit;
       });

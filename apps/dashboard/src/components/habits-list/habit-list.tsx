@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 
+import { useDate } from '@/contexts/DateContext';
 import { useCompleteHabit, useDeleteHabit } from '@/queries/habitQueries';
 import { Button } from '@heroui/button';
 import { Checkbox } from '@heroui/checkbox';
@@ -21,8 +22,6 @@ import {
 import { cn } from '@heroui/theme';
 import { addToast } from '@heroui/toast';
 
-import { getLocalDate } from '@/utils/getLocalDate';
-
 import { FormError } from '../form-error';
 
 import type { Habit } from '@repo/schemas/types/habit';
@@ -40,13 +39,14 @@ export const HabitsList = ({ habits }: { habits: Habit[] }) => {
 const Habit = ({ habit }: { habit: Habit }) => {
   const { title, is_completed } = habit;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { date } = useDate();
 
   const { mutate, isPending } = useCompleteHabit();
 
   const handleComplete = async (isCompleted: boolean) => {
     if (isPending) return;
     mutate(
-      { id: habit.id, date: getLocalDate(), isCompleted },
+      { id: habit.id, date: date, isCompleted },
       {
         onError: (_error) => {
           addToast({
@@ -82,7 +82,9 @@ const Habit = ({ habit }: { habit: Habit }) => {
         </span>
         {/* <small className="text-default-500 text-tiny">{habit?.description}</small> */}
         <div className="mr-4 flex w-52 items-center justify-between gap-8">
-          <small className="text-default-500 text-tiny">10 days streak</small>
+          <small className="text-default-500 text-tiny">
+            {habit.current_streak} days streak
+          </small>
 
           {is_completed ? (
             <Chip color="success" className="text-tiny">

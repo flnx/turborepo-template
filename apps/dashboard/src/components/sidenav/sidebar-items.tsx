@@ -6,10 +6,16 @@ export const sectionItems: SidebarItem[] = [
     title: 'Overview',
     items: [
       {
-        key: 'home',
+        key: 'today',
         href: '/dashboard',
         icon: 'solar:home-2-linear',
-        title: 'Home',
+        title: 'Today',
+      },
+      {
+        key: 'all-habits',
+        href: '/dashboard',
+        icon: 'solar:home-2-linear',
+        title: 'Habit List',
       },
     ],
   },
